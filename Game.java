@@ -2,8 +2,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Game {
-    private Mission mission;
-    /**
+     /**
      * Method to start the game.
      */
     public static void startGame(){
@@ -12,7 +11,7 @@ public class Game {
         Scanner userInput = new Scanner(System.in);
         String response = userInput.nextLine().toUpperCase();
         if (response.equals("RESUME")){
-            this.resume();
+            resume();
         }else{
             System.out.println("Welcome to the game.");
         }
@@ -37,8 +36,8 @@ public class Game {
             saveandStoreProgress();
             System.in.read();
         } catch {
-            throw new runtimeException("Can't pause the game.");
-        }
+            throw new RuntimeException("Can't pause the game.");
+         }
     }
 
     /**
@@ -50,7 +49,7 @@ public class Game {
             System.out.println("The game continues.");
             resumed = true;
         }else{
-            throw new runtimeException("Can't resume the game.");
+            throw new RuntimeException("Can't resume the game.");
         }
     }
 
@@ -60,7 +59,7 @@ public class Game {
     public static void saveandStoreProgress(){
         try{
         } catch {
-             throw new runtimeException("Can't save the game.");
+             throw new RuntimeException("Can't save the game.");
         }
     }
 
@@ -68,6 +67,6 @@ public class Game {
      * Method to end the game.
      */
     public static void endGame(){
-
+        
     }
 }
