@@ -58,7 +58,7 @@ public class Game {
      * Method to save and store progress of the game.
      */
     public static void saveandStoreProgress(){
-        try{
+        try(ObjectOutputstream out = new ObjectOutputstream(new FileOutputStream(SAVE_FILE))){
              File saveFile = new File(SAVE_FILE);
              return saveFile.exists();
         } catch {
