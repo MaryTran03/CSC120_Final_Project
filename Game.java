@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 public class Game {
     private Mission mission;
-    
+    /**
+     * Method to start the game.
+     */
     public static void startGame(){
         boolean started = false;
         System.out.println("Click on start or resume.");
@@ -26,21 +28,22 @@ public class Game {
         }
     } 
     
+     /**
+     * Method to pause the game.
+     */
     public static void pause(){
         boolean pause = false;
-        System.out.println("The game is paused. Do you want to save the progress?");
-        Scanner userInput = new Scanner(System.in);
-        pause = true;
-        String response = userInput.nextLine().toUpperCase();
-        if (response.equals("YES")){
-           try {
-               saveProgress();
-            } catch{
-                throw new runtimeException("Can't save the game on pause.");
-            }
+        try {
+            saveandStoreProgress();
+            System.in.read();
+        } catch {
+            throw new runtimeException("Can't pause the game.");
         }
     }
 
+    /**
+     * Method to resume the game.
+     */
     public static void resume(){
         boolean resumed = false;
         if(){
@@ -51,10 +54,19 @@ public class Game {
         }
     }
 
+    /**
+     * Method to save and store progress of the game.
+     */
     public static void saveandStoreProgress(){
-        
+        try{
+        } catch {
+             throw new runtimeException("Can't save the game.");
+        }
     }
 
+     /**
+     * Method to end the game.
+     */
     public static void endGame(){
 
     }
