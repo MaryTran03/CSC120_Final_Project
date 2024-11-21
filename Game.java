@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Game {
+     private static final String SAVE_FILE = "save_game.dat";
      /**
      * Method to start the game.
      */
@@ -58,8 +59,10 @@ public class Game {
      */
     public static void saveandStoreProgress(){
         try{
+             File saveFile = new File(SAVE_FILE);
+             return saveFile.exists();
         } catch {
-             throw new RuntimeException("Can't save the game.");
+             throw new RuntimeException("Can't save the game. Starting the game again.");
         }
     }
 
