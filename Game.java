@@ -4,13 +4,17 @@ import java.util.Scanner;
 public class Game {
     private Mission mission;
     private static final String save_file = "save_game.txt";
+
+    public static void startGame(){
+
+    }
     /**
      * Method to check status for win.
      */
     public void checkWinStatus(){
         if (points == 40 || money == 800){
             System.out.println("You win.");
-        } else{
+        } else {
             
         }
     } 
@@ -24,7 +28,7 @@ public class Game {
            try {
                 pause = true;
             } catch (Exception e) {
- 
+                throw new runtimeException("Can't save the game on pause.");
             }
         }
     }
