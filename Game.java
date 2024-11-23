@@ -72,4 +72,10 @@ public class Game {
     public static void endGame(){
         
     }
+
+
+    /* Trang's comment
+        Maybe you can add methods like addUsers()
+        Also maybe create an ArrayList to store all users?s
+    */
 }

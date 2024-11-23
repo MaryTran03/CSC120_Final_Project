@@ -25,25 +25,22 @@ Successful Collection:
 
 ## Mission 1: The Car Heist
 Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
-Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it.
+Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it. Vinnie 
 
 ### Key Choices:
-- Return The Car: Return the car indirectly. Reputation + 10 + Money +$100
-- Joyride Option: 
-(Random) Risk of being chased by the police:
-    Caught + paid bail: (random probability): 
-    Money: -$100
-    Reputation: -10
-Avoid the police + return the car
+- Return The Car: Return the car directly
+    Probability of success: 1.00 (assuming zero risk of being caught by the police)
+    Reputation + 10 
+    Money +$100
+- Joyride and Racing Option: 
+    Probability of success: 0.4 (racing increases the risk of being caught by the police)
+(success) Avoid the police + return the car
     Reputation + 10
     Money +$100
-(Random) Risk of being seen by a rival gang: 
-    Outrun them + return the car
-        Reputation + 10
-        Money +$100
-    Caught + damaged:
-        Money: -$200
-        Reputation: -10
+(caught) Paid bail and lose reputation
+    Money: -$200
+    Reputation: -10
+
 
 ## Mission 2: The Warehouse Raid
 Objective: Infiltrate the Iron Hounds’ warehouse and steal valuable goods for Vinnie. Need 10 reputation points to unlock
