@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Game {
     private static final String SAVE_FILE = "save_game.dat";
-
+    
     /**
      * Method to start the game.
      */
@@ -23,7 +23,7 @@ public class Game {
      * Method to check status for win.
      */
     public void checkWinStatus() {
-        if (points == 40 || money == 800) {
+        if (this.getReputation() == 40 || getMoney() == 800) {
             System.out.println("You win.");
         } else {
             System.out.println("You do not have enough reputaion points or money to win.");
