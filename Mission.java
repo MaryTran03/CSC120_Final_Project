@@ -1,85 +1,5 @@
-import java.util.Hashtable;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
-
-class Choice{
-    private String name;
-    private int reputation; // The reputation reward. 
-    private int money; // The money reward. Can be negative
-    private double probability; // Probability of success between 0.0 and 1.0
-    private String description;
-
-    public Choice(String name, String description, int money, int reputation, double probability){
-        this.name = name;
-        this.description = description;
-        this.money = money;
-        this.reputation = reputation;
-        this.probability = probability;
-    }
-
-    // Getters
-    public String getName() { return name; }
-    public String getDescription() { return this.description; }
-    public int getReputation() { return this.reputation; }
-    public int getMoney() { return this.money; }
-    public double getProbability() { return this.probability; }
-
-    // Setters
-    public void setReputation(int newReputation) {this.reputation = newReputation; }
-    public void setMoney(int newMoney) {this.money = newMoney; }
-
-}
-
-class MissionPart{
-    private String name;
-    private String instruction;
-    private ArrayList<Choice> choices;
-
-    public MissionPart(String name){
-        this.choices = new ArrayList<>();
-    }
-
-    // Getters
-    public String getName() { return this.name; }
-    public String getInstruction() { return this.instruction; }
-
-
-    public void addChoice(String name, String Description, int money, int reputation, double probability){
-        this.choices.add(new Choice(name, Description, money, reputation, probability));
-    }
-
-    public void displayPart() {
-        System.out.println("\n--- Mission Part ---");
-        System.out.println(this.getInstruction());
-        System.out.println("Your Choices:");
-
-        // Loop through the list of choices and show the options accordingly. The 1st option corresponds with 1
-        for (int i = 0; i < choices.size(); i++) {
-            Choice co = choices.get(i);
-            System.out.println((i + 1) + ". " + co.getName() + " - " + co.getDescription());
-        }
-    }
-
-    public boolean executeChoice(int choiceIndex){
-        Random random = new Random();
-        // Get the selected choice object from the list of choices
-        Choice selectedChoice = this.choices.get(choiceIndex - 1); // Minus 1 because the choiceIndex starts with 1
-
-        // Incorporate the probability
-        if (random.nextDouble(1) < selectedChoice.getProbability()) {
-            System.out.println("You avoided being caught by the police. Mission Part accomplished");
-            return true;
-        } else {
-            System.out.println("You are caught by the police, lose 10 reputation points and $200 in bail.");
-            System.out.println("Mission Part" + this.name + " failed!");
-            selectedChoice.setMoney(-200);
-            selectedChoice.setReputation(-10);
-            return false;
-        }
-
-    }
-}
 
 public class Mission{
     private String name;
@@ -87,14 +7,16 @@ public class Mission{
     private int min_reputation;
     private int min_money;
     private int current_part;
+    private String description;
 
     // Constructor
-    public Mission(String name, int min_money, int min_reputation){
+    public Mission(String name, int min_money, int min_reputation, String description){
         this.name = name;
         this.min_money = min_money;
         this.min_reputation = min_reputation;
         this.parts = new ArrayList<MissionPart>();
         this.current_part = 0; // Initialize to the first part of the lists of missions
+        this.description = description; 
     }
 
     // Unlock the mission
@@ -120,80 +42,125 @@ public class Mission{
     public int getMinReputaton(){return this.min_reputation;}
     public int getMinMoney(){return this.min_money;}
 
-    // Compile
+    // completeMission
     public void completeMission(int current_money, int current_reputation){
 
+        // Display mission
+        System.out.println("\n--- Mission " + this.name + " ---");
+        System.out.println("\n" + this.description);
+
         // If the user meet the requirement to unlock
+
         Scanner scanner = new Scanner(System.in);
-        if (unlockMission(current_money, current_money)){
+        if (current_money >= this.min_money & current_reputation >= this.min_reputation ){
             // Loop through each mission part
 
             while(this.current_part <= this.parts.size()){
-                // Create the current mission part
-                MissionPart currentMissionPart = this.parts.get(this.current_part);
-                // Display the choices for the users
-                currentMissionPart.displayPart();
-                // Get the user choices
-                int input = scanner.nextInt();
+                try {
+                    // Create the current mission part
+                    MissionPart currentMissionPart = this.parts.get(this.current_part);
+                    // Display the choices for the users
+                    currentMissionPart.displayPart();
+                    // Get the user choices
+                    int input = scanner.nextInt();
 
-                // Execute the choice and end the mission part if the user got caught
-                if (currentMissionPart.executeChoice(input) == false) {
-                    break;
-                }
-
-                this.current_part = this.current_part + 1;
-
+                    // Execute the choice and end the mission part if the user got caught
+                    if (currentMissionPart.executeChoice(input) == false) {
+                        break;
+                    }
+                    this.current_part = this.current_part + 1; 
+                
+                // Catch the exception
+                } catch (IndexOutOfBoundsException e) {}
             }
+        } else {
+            System.out.println("You are not eligible for this mission yet. You need at least $" + this.min_money + " and " + this.min_reputation + " reputation points. Do more sidequests to unlock this mission");
         }
         scanner.close();
     }
 
     public static void main(String[] args) {
-        Mission mission1 = new Mission("The Car Heist",200,0);
 
-        MissionPart part1 = new MissionPart("Steal a luxury car for Vinnie. Choose your approach");
-        part1.addChoice("Steal the cheaper car", 
+        // Create the first mission to test
+        Mission mission1 = new Mission("The Car Heist",100,0, "Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it.");
+
+        MissionPart part1_1 = new MissionPart("Steal a luxury car for Vinnie");
+        part1_1.addChoice("Steal the cheaper car", 
             "Lower rewards from Vinnie but with 0% probability of being caught by the guard.", 100, 10, 1.0); // 100% chance
-        part1.addChoice("Steal the luxury car", 
+        part1_1.addChoice("Steal the luxury car", 
             "More rewards from Vinnie but with 30% probability being caught by the guard.", 300, 15, 0.7); // 70% chance of success
-        mission1.addMissionPart(part1);
+        mission1.addMissionPart(part1_1);
 
-        MissionPart part2 = new MissionPart("Great! Now your dream car is in your hands. You still have one hour before the deadline. Would you");
-        part2.addChoice("Return the car to Vinnie", 
+        MissionPart part1_2 = new MissionPart("Great! Now your dream car is in your hands. You still have one hour before the deadline.");
+        part1_2.addChoice("Return the car to Vinnie", 
             "Lower risk of being caught by the police but no fun ... ",100, 10, 0.9); // 70% chance
-        part2.addChoice("Joyride and race!", 
-            "Higher risk but more fun!", 100, 10, 0.5); // Always happens
-        mission1.addMissionPart(part2);
+        part1_2.addChoice("Joyride and race!", 
+            "Higher risk of being caught by the police but more fun!", 100, 10, 0.5); // Always happens
+        mission1.addMissionPart(part1_2);
 
-        mission1.completeMission(500, 0);
+        // Create the second misison with at least 10 reputation points to unlock
+        
+        Mission mission2 = new Mission("The Warehouse Raid", 200, 10, "After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.");
+
+        // Add Mission Part 2_1: Collecting the Stash
+        MissionPart part2_1 = new MissionPart("Infiltrate the Iron Hounds’ warehouse and decide how much to take.");
+        part2_1.addChoice("Quick Grab", 
+            "Take one item and leave quickly to avoid detection. Low risk.", 
+            100, 5, 100); // 0% chance of success. The alarm is triggered regardless
+        part2_1.addChoice("Full Stash", 
+            "Take as many items as possible for a higher reward. Higher risk of triggering the alarm.", 
+            300, 10, 100); // 0% chance of success. The alarm is triggered regardless
+        mission2.addMissionPart(part2_1);
+
+        
+        // Add Mission Part 2_2: Handling the Alarm (If triggered during Full Stash)
+        MissionPart part2_2 = new MissionPart("The alarm was triggered!.");
+        part2_2.addChoice("Run and drop some loot", 
+            "Escape but lose some money.", 
+            -100, -5, 1.0); // Always succeeds but penalizes
+        part2_2.addChoice("Fight the guards", 
+            "Defeat the guards to escape with all the loot. High risk.", 
+            0, 0, 0.5); // 50% chance of success
+        mission2.addMissionPart(part2_2);
+
+        // Add Mission Part 2_3: Escape Route
+        MissionPart part2_3 = new MissionPart("The guards are alerted! Decide how to escape.");
+        part2_3.addChoice("Direct Route", 
+            "The fastest way out but guarded by the Iron Hounds. Moderate chance of being caught by rival gang members.", 
+            0, 0, 0.7); // 70% chance of success
+        part2_3.addChoice("Stealth Route", 
+            "A slower but safer way out through the back alleys. Escape unnoticed.", 
+            50, 0, 1.0); // 100% chance of success
+        mission2.addMissionPart(part2_3);
+
+
+        // Create Mission 3 with a reputation requirement of 30 to unlock
+        Mission mission3 = new Mission("The Final Heist", 30, 0, "After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet: a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
+
+        // Add Mission Part 3_1: Police Chase
+        MissionPart part3_1 = new MissionPart("The police are on your tail! Decide how to handle the chase.");
+        part3_1.addChoice("Evade the Police", 
+            "Use your driving skills to outmaneuver police cars and escape. Risk: Lose part of the loot if caught.", 
+            0, 0, 0.7); // 70% chance of success
+        part3_1.addChoice("Fight Back", 
+            "Use a weapon to disable pursuing police cars. Outcome: Slower but higher chance of escape.", 
+            0, -5, 1.0); // 100% chance of success but reputation -5
+        mission3.addMissionPart(part3_1);
+
+        // Add Mission Part 3_2: Split the Loot
+        MissionPart part3_2 = new MissionPart("The job is done! Now decide how to split the loot.");
+        part3_2.addChoice("Stay Loyal", 
+            "Share the loot evenly with the crew. Gain their trust and ensure future jobs.", 
+            100, 10, 1.0); // 100% chance of success, reputation +10
+        part3_2.addChoice("Betray the Crew", 
+            "Escape with the entire loot but anger the crew. Risk: Lose reputation and gain money.", 
+            500, -30, 1.0); // 100% success, reputation -20, money +500
+        mission3.addMissionPart(part3_2);
+
+        // Test
+        mission3.completeMission(200, 30);
     }
 }
 
-
-
-    /*
-    ## Mission 1: The Car Heist
-Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
-Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it.
-
-### Key Choices:
-- Return The Car: Return the car indirectly. Reputation + 10 + Money +$100
-- Joyride Option: 
-(Random) Risk of being chased by the police:
-    Caught + paid bail: (random probability): 
-    Money: -$100
-    Reputation: -10
-Avoid the police + return the car
-    Reputation + 10
-    Money +$100
-(Random) Risk of being seen by a rival gang: 
-    Outrun them + return the car
-        Reputation + 10
-        Money +$100
-    Caught + damaged:
-        Money: -$200
-        Reputation: -10
-
-    */ 
 
 

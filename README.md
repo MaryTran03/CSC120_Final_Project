@@ -3,9 +3,9 @@
 Win the game: Win by either acquiring $800 or 40 reputation points. 
 
 ## Side Quests (to either increase reputation points or money): 
-- Side Quests became available if: Money < 0 OR Reputation < 0
+- Side Quests are always available
 
-### Side Quest 1: Debt Collection
+## Side Quest 1: Debt Collection
 Objective: Help Vinnie collect overdue payments from local business owners who owe him money. Description: Vinnie isn’t pleased with your recent actions and wants you to prove yourself useful. He assigns you to collect “protection fees” from two local businesses in Rivertown. Approach them to demand payment, but handle it carefully—being too aggressive may backfire.
 
 ### Key Choices:
@@ -18,22 +18,24 @@ Successful Collection:
 - Intimidating: Reputation +10, Money +$150, with a 20% chance of police involvement (Money -$100 for bail).
 - Failed Collection (if police are called): Money -$100, Reputation -5 (for getting caught).
 
-### Side Quest 2: Burger King
-- Number of hours worked: 
+## Side Quest 2: Burger King
 - Earnings: $15/hr
 - Total money earned: 15 hours worked + no increase in reputation
+
+### Key Choices: 
+- How many hours do you want to work? 
 
 ## Mission 1: The Car Heist
 Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
 Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it. Vinnie 
 
 ### Key Choices:
-- Return The Car: Return the car directly
+- Steal the cheaper car or more expensive car
     Probability of success: 1.00 (assuming zero risk of being caught by the police)
     Reputation + 10 
     Money +$100
-- Joyride and Racing Option: 
-    Probability of success: 0.4 (racing increases the risk of being caught by the police)
+- Joyride and Racing: 
+    Probability of success: 0.5 (racing increases the risk of being caught by the police)
 (success) Avoid the police + return the car
     Reputation + 10
     Money +$100
