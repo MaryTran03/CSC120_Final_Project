@@ -21,15 +21,11 @@ public class Game {
         System.out.println("Which mission or side quest do you want to pick?");
         Scanner userInput = new Scanner(System.in);
         String response = userInput.nextLine().toUpperCase();
-        if(response.contains("MISSION")){
-            if(choice instanceof MissionPart){
+        if(response.contains("MISSION") ||response.contains("SIDEQUEST") ){
+            if(choice instanceof MissionPart || choice instanceof SideQuest){
+                missions.add(choice);
             }else{
-                System.out.println("Invalid. Please choose a valid the mission.");
-            }
-        }else if(response.contains("SIDEQUEST")){
-            if(choice instanceof SideQuest){
-            }else{
-                System.out.println("Invalid. Please choose a valid side quest.");
+                System.out.println("Invalid. Please choose a valid side quest or mission.");
             }
         }else{
             System.out.println("You have to choose only a mission or a side quest");
