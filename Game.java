@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class Game {
     private static final String SAVE_FILE = "save_game.dat";
-
+    private int money;
+    private int reputation;
     /**
      * Method to start the game.
      */
@@ -23,7 +24,7 @@ public class Game {
      * Method to check status for win.
      */
     public void checkWinStatus() {
-        if (points == 40 || money == 800) {
+        if (reputation == 40 || money == 800) {
             System.out.println("You win.");
         } else {
             System.out.println("You do not have enough reputaion points or money to win.");
@@ -38,7 +39,7 @@ public class Game {
         try {
             saveandStoreProgress();
             System.in.read();
-        } catch {
+        } catch(Error e) {
             throw new RuntimeException("Can't pause the game.");
          }
     }
