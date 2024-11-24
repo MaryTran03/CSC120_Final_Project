@@ -4,19 +4,40 @@ import java.util.Scanner;
 
 public class Game {
     private static final String SAVE_FILE = "save_game.dat";
-    private int money;
-    private int reputation;
     private ArrayList<User> users;
     private ArrayList<Mission> missions;
     private User user;
+    private Mission mission;
+    private SideQuest sidequest;
+    private MissionPart choice;
+    private int reputation;
+    private int money;
 
-    public Game(ArrayList<Mission> missions){
-        this.missions = missions;
+    public Game(){
+        missions = new ArrayList<Mission>();
+        addUsers(user);
+        addChoice(choice);
     }
 
-    public void addMissions(Mission missionpart){
-        missions.addChoice(missionpart);
+    public void addChoice(MissionPart choice){
+        System.out.println("Which mission or side quest do you want to pick?");
+        Scanner userInput = new Scanner(System.in);
+        String response = userInput.nextLine().toUpperCase();
+        if(response.contains("MISSION")){
+            if(choice instanceof MissionPart){
+            }else{
+                System.out.println("Invalid. Please choose a valid the mission.");
+            }
+        }else if(response.contains("SIDEQUEST")){
+            if(choice instanceof SideQuest){
+             }else{
+                System.out.println("Invalid. Please choose a valid side quest.");
+            }
+        }else{
+            System.out.println("You have to choose only a mission or a side quest");
+        }
     }
+
     /**
      * Method to start the game.
      */
@@ -37,8 +58,7 @@ public class Game {
     /** 
      * Method to add user
     */
-    public void addUsers(user){
-        User user = new User(this.reputation,this.money);
+    public void addUsers(User user){
         users.add(user);
     }
     /**
