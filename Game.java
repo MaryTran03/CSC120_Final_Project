@@ -8,9 +8,14 @@ public class Game {
     private int reputation;
     private ArrayList<User> users;
     private ArrayList<Mission> missions;
+    private User user;
 
     public Game(ArrayList<Mission> missions){
         this.missions = missions;
+    }
+
+    public void addMissions(Mission missionpart){
+        missions.addChoice(missionpart);
     }
     /**
      * Method to start the game.
@@ -29,9 +34,12 @@ public class Game {
         userInput.close();
         return started;
     }
-
-    public void addUsers(int reputation, int money){
-        users.add(new User(this.reputation,this.money));
+    /** 
+     * Method to add user
+    */
+    public void addUsers(user){
+        User user = new User(this.reputation,this.money);
+        users.add(user);
     }
     /**
      * Method to check status for win.
