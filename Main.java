@@ -83,15 +83,19 @@ public class Main {
 
         
         // Add Side Quest 1: Bad Debt Collection
-        SideQuest badDebt = new SideQuest("Bad Debt");
+        SideQuest badDebt = new SideQuest("Bad Debt Collection", "Vinnie isn’t pleased with your recent actions and wants you to prove yourself useful. He assigns you to collect protection fees from two local businesses in Rivertown. Approach them to demand payment, but handle it carefully as being too aggressive may backfire.");
         badDebt.addChoice("Polite", "Approach the business owner with a firm but nonthreatening attitude. This will lower your chance of increasing your reputation and reduce the chance of them resisting or calling the police."
                         , 100, 5, 0.9);
         badDebt.addChoice("Intimidating", "Use intimidation to collect the payment faster and increase your reputation more. However, this increases the risk of the owner calling the police, which could cost you more money in bail if caught."
                         , 100, 5, 0.6);
+        
+        // Add Side Quest 2: Burger King
+        SideQuest burgerKing = new SideQuest("Burger King", "Work at a local shop to save up some money. However, this doesn't increase your reputation points with Vinnie", 14.75);
 
         // Test
-        mission3.completeMission(200, 30, scanner);
+        //mission3.completeMission(200, 30, scanner);
         badDebt.completeSideQuest(scanner);
+        burgerKing.completeSideQuest(scanner);
 
 
         scanner.close();

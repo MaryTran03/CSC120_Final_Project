@@ -54,7 +54,7 @@ public class MissionPart {
         int input = 0;
 
         while (true) {
-            System.out.print("Enter your choice: ");
+            System.out.print("\n Enter your choice: ");
             if (!scanner.hasNextInt()) { // Check if input is a number
                 System.out.println("Invalid input. Please enter a number between " + min + " and " + max + ".");
                 scanner.next(); // Clear invalid input

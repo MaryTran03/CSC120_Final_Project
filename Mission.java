@@ -1,15 +1,18 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Mission extends BaseMission{
+public class Mission {
     private ArrayList<MissionPart> parts;
     private int min_reputation;
     private int min_money;
+    private String name;
+    private String description;
     private int current_part;
 
     // Constructor
     public Mission(String name, int min_money, int min_reputation, String description){
-        super(name, description);
+        this.name = name;
+        this.description = description;
         this.min_money = min_money;
         this.min_reputation = min_reputation;
         this.parts = new ArrayList<MissionPart>();
