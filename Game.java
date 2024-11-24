@@ -7,8 +7,6 @@ public class Game {
     private ArrayList<User> users;
     private ArrayList<Mission> missions;
     private User user;
-    private Mission mission;
-    private SideQuest sidequest;
     private MissionPart choice;
     private int reputation;
     private int money;
@@ -30,7 +28,7 @@ public class Game {
             }
         }else if(response.contains("SIDEQUEST")){
             if(choice instanceof SideQuest){
-             }else{
+            }else{
                 System.out.println("Invalid. Please choose a valid side quest.");
             }
         }else{
