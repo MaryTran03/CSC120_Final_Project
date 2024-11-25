@@ -10,8 +10,9 @@ public class Game {
     private MissionPart choice;
     private int reputation;
     private int money;
-
-    public Game(){
+    private Player player;
+    public Game(Player player){
+        this.player = player;
         missions = new ArrayList<Mission>();
         addUsers(user);
         addChoice(choice);
@@ -60,7 +61,7 @@ public class Game {
      */
     public void checkWinStatus() {
         if (reputation == 40 || money == 800) {
-            System.out.println("You win.");
+            System.out.println(player + " wins.");
         } else {
             System.out.println("You do not have enough reputaion points or money to win.");
         }
@@ -85,7 +86,7 @@ public class Game {
      */
     public static void resume(){
         File saveFile = new File(SAVE_FILE);
-         if(saveFile.exists()){
+        if(saveFile.exists()){
             System.out.println("The game continues.");
         }else{
             throw new RuntimeException("Can't resume the game.");
