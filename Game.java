@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Game {
     private static final String SAVE_FILE = "save_game.dat";
     private ArrayList<User> users;
-    private ArrayList<Mission> missions;
+    private ArrayList<MissionPart> missions;
     private User user;
     private MissionPart choice;
     private int reputation;
@@ -13,7 +13,7 @@ public class Game {
     private Player player;
     public Game(Player player){
         this.player = player;
-        missions = new ArrayList<Mission>();
+        missions = new ArrayList<MissionPart>();
         addUsers(user);
         addChoice(choice);
     }
@@ -24,13 +24,15 @@ public class Game {
         String response = userInput.nextLine().toUpperCase();
         if(response.contains("MISSION") ||response.contains("SIDEQUEST") ){
             if(choice instanceof MissionPart || choice instanceof SideQuest){
-                missions.addChoice(choice);
+                missions.add(choice);
+                userInput.close();
             }else{
                 System.out.println("Invalid. Please choose a valid side quest or mission.");
             }
         }else{
             System.out.println("You have to choose only a mission or a side quest");
         }
+        
     }
 
     /**
