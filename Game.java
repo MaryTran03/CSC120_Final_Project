@@ -24,7 +24,7 @@ public class Game {
         String response = userInput.nextLine().toUpperCase();
         if(response.contains("MISSION") ||response.contains("SIDEQUEST") ){
             if(choice instanceof MissionPart || choice instanceof SideQuest){
-                missions.add(choice);
+                missions.addChoice(choice);
             }else{
                 System.out.println("Invalid. Please choose a valid side quest or mission.");
             }
