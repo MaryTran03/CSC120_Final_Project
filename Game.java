@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Game {
     private static final String SAVE_FILE = "save_game.dat";
-    private ArrayList<User> users;
+    private ArrayList<Player> users;
     private ArrayList<MissionPart> missions;
     private Player player;
     private Scanner userInput;
