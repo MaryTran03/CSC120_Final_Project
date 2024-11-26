@@ -16,11 +16,13 @@ public class Game {
         this.missions = new ArrayList<>();
         this.userInput = new Scanner(System.in);
     }
-
+    public Player getPlayer(){
+        return player;
+    }
     /**
      * Method to start the game.
      */
-    public boolean startGame() {
+    public boolean startGame(Player player) {
         System.out.println("Type in 'start' or 'resume'.");
         String response = userInput.nextLine().toUpperCase();
 
@@ -28,8 +30,9 @@ public class Game {
             resume();
         } else {
             System.out.println("Welcome to the game!");
-            Mission firstMission = new Mission("Mission 1: The Car Heist".player.getMoney(),player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
-            firstMission.completeMission(0, 0, userInput);;
+            Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
+            firstMission.completeMission(0, 0, userInput);
+            
         }
         return true;
     }
@@ -58,16 +61,17 @@ public class Game {
      * @return true or false for validation
      */
     public boolean validateUserInput(Scanner scanner){
-        boolean validated = false;
         while (true) {
             System.out.print("\n Enter your choice: ");
             if(!scanner.hasNext("MISSION") || !scanner.hasNext("SIDEQUEST")){
-                System.out.println();
+                System.out.println("Invalid. Please type in mission or side quest.");
+                scanner.next();
+                continue;
+            }else{
+                break;
             }
         }
-        validated = true;
-
-        return validated;
+        return true;
     }
     /**
      * Method to add a user to the game.

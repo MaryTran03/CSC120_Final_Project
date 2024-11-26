@@ -14,7 +14,7 @@ public class Main {
         
         // Initialize the game and start
         Game game = new Game(player);
-        game.startGame();
+        game.startGame(player);
 
         // Close the scanner to avoid resource leaks
         scanner.close();
