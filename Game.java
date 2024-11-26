@@ -28,6 +28,8 @@ public class Game {
             resume();
         } else {
             System.out.println("Welcome to the game!");
+            Mission firstMission = new Mission("Mission 1: The Car Heist".player.getMoney(),player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
+            firstMission.completeMission(0, 0, userInput);;
         }
         return true;
     }
@@ -50,7 +52,23 @@ public class Game {
             System.out.println("You must choose either a mission or a side quest.");
         }
     }
+    /**
+     * Validate User's Input
+     * @param scanner
+     * @return true or false for validation
+     */
+    public boolean validateUserInput(Scanner scanner){
+        boolean validated = false;
+        while (true) {
+            System.out.print("\n Enter your choice: ");
+            if(!scanner.hasNext("MISSION") || !scanner.hasNext("SIDEQUEST")){
+                System.out.println();
+            }
+        }
+        validated = true;
 
+        return validated;
+    }
     /**
      * Method to add a user to the game.
      */
