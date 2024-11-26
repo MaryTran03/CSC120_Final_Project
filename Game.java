@@ -21,7 +21,7 @@ public class Game {
      * Method to start the game.
      */
     public boolean startGame() {
-        System.out.println("Click on 'start' or 'resume'.");
+        System.out.println("Type in 'start' or 'resume'.");
         String response = userInput.nextLine().toUpperCase();
 
         if (response.equals("RESUME")) {
