@@ -32,7 +32,7 @@ public class Game {
             System.out.println("Welcome to the game!");
             Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
             firstMission.completeMission(0, 0, userInput);
-            
+
         }
         return true;
     }
