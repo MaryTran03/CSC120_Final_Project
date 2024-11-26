@@ -43,17 +43,24 @@ public class Game {
     public void addChoice(MissionPart choice) {
         System.out.println("Which mission or side quest do you want to pick?");
         String response = userInput.nextLine().toUpperCase();
-
-        if (response.contains("MISSION") || response.contains("SIDEQUEST")) {
-            if (choice instanceof MissionPart || choice instanceof SideQuest) {
-                missions.add(choice);
-                System.out.println("Choice added successfully!");
+        while (true) {
+            if (response.contains("MISSION") || response.contains("SIDEQUEST")) {
+                if (choice instanceof MissionPart || choice instanceof SideQuest) {
+                    missions.add(choice);
+                    System.out.println("Choice added successfully!");
+                } else {
+                    System.out.println("Invalid. Please choose a valid mission or side quest.");
+                }
             } else {
-                System.out.println("Invalid. Please choose a valid mission or side quest.");
+                System.out.println("You must choose either a mission or a side quest.");
             }
-        } else {
-            System.out.println("You must choose either a mission or a side quest.");
+
+            ArrayList<Integer>selections = new ArrayList<>( );
+            selections.add(1);
+            selections.add(2);
+            selections.add(3);
         }
+        
     }
     /**
      * Validate User's Input
