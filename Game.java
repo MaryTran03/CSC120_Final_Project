@@ -37,6 +37,7 @@ public class Game {
             if(userInput.nextLine().toUpperCase().equals("YES")){
                 Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, player.getReputation(), "After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.");
                 secondMission.completeMission(0, 0, userInput);
+                checkWinStatus();
             }
         }
         return true;
@@ -117,6 +118,7 @@ public class Game {
             out.write("Reputation:" + player.getReputation() + "\n");
             out.write("Money:" + player.getMoney() + "\n");
             out.flush();
+            addUser(player);
             System.out.println("Game progress saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save the game: " + e.getMessage());
@@ -134,6 +136,8 @@ public class Game {
                 int money = Integer.parseInt(reader.readLine().split(":")[1]);
                 this.player = new Player(name,money);
                 System.out.println("Game resumed successfully.");
+                checkWinStatus();
+
             } catch (IOException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
