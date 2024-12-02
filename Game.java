@@ -157,7 +157,10 @@ public class Game {
         }
          
     }
-
+    public void pauseGame(){
+        saveAndStoreProgress();
+        System.out.println("Game paused and the progress is saved.");
+    }
     /**
      * Method to end the game.
      */
