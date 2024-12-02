@@ -1,4 +1,5 @@
-public class Player {
+
+public class Player{
     private String name;
     private int reputation;   // Starts at 0
     private double money;     // Starting amount of money

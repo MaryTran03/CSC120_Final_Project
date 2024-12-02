@@ -1,0 +1,3 @@
+Player name:ada
+Reputation:0
+Money:200.0

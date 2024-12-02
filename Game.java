@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    private static final String SAVE_FILE = "save_game.dat";
+    private static final String SAVE_FILE = "./save_game.txt";
     private ArrayList<Player> users;
     private ArrayList<MissionPart> missions;
     private Player player;
@@ -32,7 +32,12 @@ public class Game {
             System.out.println("Welcome to the game!");
             Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
             firstMission.completeMission(0, 0, userInput);
-
+            saveAndStoreProgress();
+            System.out.println("Do you want to move on?");
+            if(userInput.nextLine().toUpperCase().equals("YES")){
+                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, player.getReputation(), "After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.");
+                secondMission.completeMission(0, 0, userInput);
+            }
         }
         return true;
     }
@@ -75,10 +80,9 @@ public class Game {
                 scanner.next();
                 continue;
             }else{
-                break;
+                return true;
             }
         }
-        return true;
     }
     /**
      * Method to add a user to the game.
@@ -107,8 +111,12 @@ public class Game {
      * Method to save and store progress of the game.
      */
     public void saveAndStoreProgress() {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
-            out.writeObject(this);
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(SAVE_FILE))) {
+            System.out.println("Saving game progress...");
+            out.write("Player name:" + player.getName() + "\n");
+            out.write("Reputation:" + player.getReputation() + "\n");
+            out.write("Money:" + player.getMoney() + "\n");
+            out.flush();
             System.out.println("Game progress saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save the game: " + e.getMessage());
@@ -121,18 +129,33 @@ public class Game {
     public void resume() {
         File saveFile = new File(SAVE_FILE);
         if (saveFile.exists()) {
-            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
-                Game savedGame = (Game) in.readObject();
-                this.users = savedGame.users;
-                this.missions = savedGame.missions;
-                this.player = savedGame.player;
+            try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
+                String name = reader.readLine().split(":")[1];
+                int money = Integer.parseInt(reader.readLine().split(":")[1]);
+                this.player = new Player(name,money);
                 System.out.println("Game resumed successfully.");
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
         } else {
             System.out.println("No saved game found. Starting a new game.");
         }
+    }
+
+    /**
+     * Method to load the game with saved progress.
+     */
+    public void loadPlayerProgress() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
+            String name = reader.readLine().split(":")[1];
+            int money = Integer.parseInt(reader.readLine().split(":")[1]);  
+            player.setName(name);
+            player.setMoney(money);          
+            System.out.println("Game loaded successfully");
+        } catch (IOException e) {
+            System.err.println("Failed to resume the game: " + e.getMessage());
+        }
+         
     }
 
     /**
