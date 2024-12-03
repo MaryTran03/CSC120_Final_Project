@@ -58,13 +58,21 @@ public class Game {
     /**
      * Method to add a mission or side quest.
      */
-    public void addChoice(MissionPart choice) {
+    public void addMissionorSideQuest(MissionPart choice) {
         System.out.println("Which mission or side quest do you want to pick?");
         String response = userInput.nextLine().toUpperCase();
         while (true) {
             if (response.contains("MISSION") || response.contains("SIDEQUEST")) {
                 if (choice instanceof MissionPart || choice instanceof SideQuest) {
                     missions.add(choice);
+                    System.out.println("Type in 1, 2, 3.");
+                    int i = userInput.nextInt();
+                    if(i>0 && i<4){
+                        choice.addChoice(choice.getName(), choice.getDescription(), choice.getChoices().get(i), choice.getChoices().get(i).getReputation(), choice.getChoices().get(i).getProbability());
+                    }else{
+                        System.out.println("Invalid. Please choose a valid number.");
+
+                    }
                     System.out.println("Choice added successfully!");
                 } else {
                     System.out.println("Invalid. Please choose a valid mission or side quest.");
@@ -72,11 +80,6 @@ public class Game {
             } else {
                 System.out.println("You must choose either a mission or a side quest.");
             }
-
-            ArrayList<Integer>selections = new ArrayList<>( );
-            selections.add(1);
-            selections.add(2);
-            selections.add(3);
         }
         
     }
