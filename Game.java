@@ -31,6 +31,8 @@ public class Game {
             users.add(player);
             System.out.println("Welcome to the game!");
             Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
+            MissionPart firstMissionPart = new MissionPart("Mission 1: The Car Heist");
+            missions.add(firstMissionPart);
             firstMission.completeMission(0, 0, userInput);
             saveAndStoreProgress();
             System.out.println("Do you want to move on?");
@@ -57,29 +59,25 @@ public class Game {
 
     /**
      * Method to add a mission or side quest.
+     * @param choice
      */
     public void addMissionorSideQuest(MissionPart choice) {
         System.out.println("Which mission or side quest do you want to pick?");
         String response = userInput.nextLine().toUpperCase();
         while (true) {
-            if (response.contains("MISSION") || response.contains("SIDEQUEST")) {
-                if (choice instanceof MissionPart || choice instanceof SideQuest) {
+            if (validateUserInput(userInput, response)) {
+                System.out.println("Type in 1, 2, 3.");
+                int i = userInput.nextInt();
+                if(i-1<=2 && i-1>=0){
+                    choice.addChoice(choice.getChoices().get(i).getName(), choice.getChoices().get(i).getDescription(), choice.getChoices().get(i).getMoney(), choice.getChoices().get(i).getReputation(), choice.getChoices().get(i).getProbability());
                     missions.add(choice);
-                    System.out.println("Type in 1, 2, 3.");
-                    int i = userInput.nextInt();
-                    if(i>0 && i<4){
-                        choice.addChoice(choice.getName(), choice.getDescription(), choice.getChoices().get(i), choice.getChoices().get(i).getReputation(), choice.getChoices().get(i).getProbability());
-                    }else{
-                        System.out.println("Invalid. Please choose a valid number.");
-
-                    }
-                    System.out.println("Choice added successfully!");
-                } else {
-                    System.out.println("Invalid. Please choose a valid mission or side quest.");
+                }else{
+                    System.out.println("Invalid. Please choose a valid number.");
                 }
-            } else {
-                System.out.println("You must choose either a mission or a side quest.");
+                System.out.println("Choice added successfully!");
+                
             }
+            
         }
         
     }
@@ -88,7 +86,7 @@ public class Game {
      * @param scanner
      * @return true or false for validation
      */
-    public boolean validateUserInput(Scanner scanner){
+    public boolean validateUserInput(Scanner scanner, String response){
         while (true) {
             System.out.print("\n Enter your choice: ");
             if(!scanner.hasNext("MISSION") || !scanner.hasNext("SIDEQUEST")){
@@ -152,7 +150,7 @@ public class Game {
                 this.player = new Player(name,money);
                 System.out.println("Game resumed successfully.");
                 checkWinStatus();
-
+                missions.get(missions.size()-1);
             } catch (IOException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
