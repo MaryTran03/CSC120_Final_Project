@@ -147,6 +147,7 @@ public class Game {
     public void checkWinStatus() {
         if (player.getReputation() >= 40 || player.getMoney() >= 800) {
             System.out.println(player.getName() + " wins the game!");
+            endGame();
         } else {
             System.out.println("Not enough reputation points or money to win.");
         }
@@ -207,6 +208,9 @@ public class Game {
 
     }
 
+    /**
+     * Method to pause the game
+     */    
     public void pauseGame() {
         saveAndStoreProgress();
         System.out.println("Game paused and the progress is saved.");
