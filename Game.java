@@ -196,11 +196,13 @@ public class Game {
      * Method to load the game with saved progress.
      */
     public void loadPlayerProgress() {
+        File saveFile = new File(SAVE_FILE);
         try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
             String name = reader.readLine().split(":")[1];
             int money = Integer.parseInt(reader.readLine().split(":")[1]);
             player.setName(name);
             player.setMoney(money);
+            progress.getOrDefault(saveFile, false);
             System.out.println("Game loaded successfully");
         } catch (IOException e) {
             System.err.println("Failed to load the game: " + e.getMessage());
@@ -210,7 +212,7 @@ public class Game {
 
     /**
      * Method to pause the game
-     */    
+     */
     public void pauseGame() {
         saveAndStoreProgress();
         System.out.println("Game paused and the progress is saved.");
