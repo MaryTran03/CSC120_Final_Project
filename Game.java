@@ -45,7 +45,9 @@ public class Game {
                 MissionPart secondMissionPart = new MissionPart(secondMission.getName());
                 missions.add(secondMissionPart);
                 secondMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
-                checkWinStatus();
+                if(userInput.nextLine().toUpperCase().equals("YES")){
+                    checkWinStatus();
+                }
                 System.out.println("Do you want to move on?");
                 if (userInput.nextLine().toUpperCase().equals("YES")) {
                     checkWinStatus();
