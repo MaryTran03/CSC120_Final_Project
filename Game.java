@@ -1,11 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Game {
     private static final String SAVE_FILE = "./save_game.txt";
     private ArrayList<Player> users;
+    private Hashtable<String, Boolean> progress;
     private ArrayList<MissionPart> missions;
+
     private Player player;
     private Scanner userInput;
 
@@ -13,8 +16,9 @@ public class Game {
     public Game(Player player) {
         this.player = player;
         this.users = new ArrayList<>();
-        this.missions = new ArrayList<>();
+        this.progress = new Hashtable<>();
         this.userInput = new Scanner(System.in);
+        this.missions = new ArrayList<>();
     }
 
     public Player getPlayer() {
@@ -36,35 +40,39 @@ public class Game {
                     "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
             MissionPart firstMissionPart = new MissionPart(firstMission.getName());
             missions.add(firstMissionPart);
+            progress.put(firstMissionPart.getName(), false);
             firstMission.completeMission(0, 0, userInput);
             saveAndStoreProgress();
             System.out.println("Do you want to move on?");
             if (userInput.nextLine().toUpperCase().equals("YES")) {
-                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10,"After proving yourself in the car heist,"+ 
-                "Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics."+
-                "The warehouse has guards, so you'll need to choose your approach carefully.");
+                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10,
+                        "After proving yourself in the car heist," +
+                                "Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics."
+                                +
+                                "The warehouse has guards, so you'll need to choose your approach carefully.");
                 MissionPart secondMissionPart = new MissionPart(secondMission.getName());
                 missions.add(secondMissionPart);
+                progress.put(secondMissionPart.getName(), false);
                 secondMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
-                if(userInput.nextLine().toUpperCase().equals("YES")){
+                if (userInput.nextLine().toUpperCase().equals("YES")) {
                     checkWinStatus();
                 }
                 System.out.println("Do you want to move on?");
                 if (userInput.nextLine().toUpperCase().equals("YES")) {
-                    checkWinStatus();
                     Mission thirdMission = new Mission("Mission 3: The Final Heist", 0, 30,
-                    "After proving your skills in the car heist and warehouse raid,"+
-                    "Vinnie trusts you with the crew's biggest job yet—a bank heist."+
-                    "Your role is crucial as the getaway driver." +"
-                    You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
+                            "After proving your skills in the car heist and warehouse raid," +
+                                    "Vinnie trusts you with the crew's biggest job yet—a bank heist." +
+                                    "Your role is crucial as the getaway driver." +
+                                    "You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
                     MissionPart thirdMissionPart = new MissionPart(thirdMission.getName());
                     missions.add(thirdMissionPart);
+                    progress.put(thirdMissionPart.getName(), false);
                     thirdMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
                     System.out.println("Do you want to check your win status?");
-                    if(userInput.nextLine().toUpperCase().equals("YES")){
+                    if (userInput.nextLine().toUpperCase().equals("YES")) {
                         checkWinStatus();
                     }
-                 } else {
+                } else {
                     pauseGame();
                 }
             } else {
@@ -153,6 +161,7 @@ public class Game {
             out.write("Player name:" + player.getName() + "\n");
             out.write("Reputation:" + player.getReputation() + "\n");
             out.write("Money:" + player.getMoney() + "\n");
+            out.write("Last completed Mission:" + missions.getLast().getName());
             out.flush();
             addUser(player);
             System.out.println("Game progress saved successfully.");
@@ -171,9 +180,9 @@ public class Game {
                 String name = reader.readLine().split(":")[1];
                 int money = Integer.parseInt(reader.readLine().split(":")[1]);
                 this.player = new Player(name, money);
+                progress.getOrDefault(saveFile, false);
                 System.out.println("Game resumed successfully.");
                 checkWinStatus();
-                missions.get(missions.size() - 1);
             } catch (IOException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
