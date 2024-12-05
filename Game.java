@@ -204,10 +204,10 @@ public class Game {
             String lastMission = reader.readLine().split(":")[1];
             progress.put(lastMission, true);
             int i = 0;
-            while(!missions.get(i).getName().equals(lastMission)){
+            do {
                 progress.put(missions.get(i).getName(), true);
                 i++;
-            }
+            }while(!missions.get(i).getName().equals(lastMission));
             System.out.println(progress);
             System.out.println("Game loaded successfully");
         } catch (IOException e) {
