@@ -1,4 +1,4 @@
 Player name:ada
 Reputation:0
 Money:200.0
-Last completed Mission:Mission 1: The Car Heist
+Last completed Mission:The Car Heist

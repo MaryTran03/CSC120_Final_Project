@@ -36,7 +36,7 @@ public class Game {
         } else {
             users.add(player);
             System.out.println("Welcome to the game!");
-            Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(),
+            Mission firstMission = new Mission("The Car Heist", 0, player.getReputation(),
                     "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
             MissionPart firstMissionPart = new MissionPart(firstMission.getName());
             missions.add(firstMissionPart);
@@ -45,7 +45,7 @@ public class Game {
             saveAndStoreProgress();
             System.out.println("Do you want to move on?");
             if (userInput.nextLine().toUpperCase().equals("YES")) {
-                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10,
+                Mission secondMission = new Mission("The Warehouse Raid", 0, 10,
                         "After proving yourself in the car heist," +
                                 "Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics."
                                 +
@@ -59,7 +59,7 @@ public class Game {
                 }
                 System.out.println("Do you want to move on?");
                 if (userInput.nextLine().toUpperCase().equals("YES")) {
-                    Mission thirdMission = new Mission("Mission 3: The Final Heist", 0, 30,
+                    Mission thirdMission = new Mission("The Final Heist", 0, 30,
                             "After proving your skills in the car heist and warehouse raid," +
                                     "Vinnie trusts you with the crew's biggest job yet—a bank heist." +
                                     "Your role is crucial as the getaway driver." +
@@ -74,9 +74,17 @@ public class Game {
                     }
                 } else {
                     pauseGame();
+                    System.out.println("The game is paused. Do you want to continue?");
+                    if (userInput.nextLine().toUpperCase().equals("YES")) {
+                        resume();
+                    }
                 }
             } else {
                 pauseGame();
+                System.out.println("The game is paused. Do you want to continue?");
+                if (userInput.nextLine().toUpperCase().equals("YES")) {
+                    resume();
+                }
             }
         }
         return true;
@@ -198,16 +206,21 @@ public class Game {
     public void loadPlayerProgress() {
         try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
             String name = reader.readLine().split(":")[1];
-            int money = Integer.parseInt(reader.readLine().split(":")[1]);
+            int reputation = Integer.parseInt(reader.readLine().split(":")[1]);
+            double doubleMoney = Double.parseDouble(reader.readLine().split(":")[1]); 
+            int money = (int) Math.round(doubleMoney);
             player.setName(name);
+            player.setReputation(reputation);
             player.setMoney(money);
-            String lastMission = reader.readLine().split(":")[1];
+            String lastMission = reader.readLine().split(":")[1].strip();
+            System.out.println(lastMission);
             progress.put(lastMission, true);
             int i = 0;
-            do {
+            System.out.println(missions.size());
+            while(i<missions.size() && !missions.get(i).getName().equals(lastMission)){
                 progress.put(missions.get(i).getName(), true);
                 i++;
-            }while(!missions.get(i).getName().equals(lastMission));
+            }
             System.out.println(progress);
             System.out.println("Game loaded successfully");
         } catch (IOException e) {
