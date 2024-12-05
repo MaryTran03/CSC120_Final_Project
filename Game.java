@@ -202,7 +202,7 @@ public class Game {
             player.setMoney(money);
             System.out.println("Game loaded successfully");
         } catch (IOException e) {
-            System.err.println("Failed to resume the game: " + e.getMessage());
+            System.err.println("Failed to load the game: " + e.getMessage());
         }
 
     }
