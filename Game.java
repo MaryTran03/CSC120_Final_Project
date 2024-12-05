@@ -16,9 +16,11 @@ public class Game {
         this.missions = new ArrayList<>();
         this.userInput = new Scanner(System.in);
     }
-    public Player getPlayer(){
+
+    public Player getPlayer() {
         return player;
     }
+
     /**
      * Method to start the game.
      */
@@ -30,29 +32,32 @@ public class Game {
         } else {
             users.add(player);
             System.out.println("Welcome to the game!");
-            Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(), "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
-            MissionPart firstMissionPart = new MissionPart("Mission 1: The Car Heist");
+            Mission firstMission = new Mission("Mission 1: The Car Heist", 0, player.getReputation(),
+                    "Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.");
+            MissionPart firstMissionPart = new MissionPart(firstMission.getName());
             missions.add(firstMissionPart);
             firstMission.completeMission(0, 0, userInput);
             saveAndStoreProgress();
             System.out.println("Do you want to move on?");
-            if(userInput.nextLine().toUpperCase().equals("YES")){
-                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10, "After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.");
+            if (userInput.nextLine().toUpperCase().equals("YES")) {
+                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10,
+                        "After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.");
                 MissionPart secondMissionPart = new MissionPart(secondMission.getName());
                 missions.add(secondMissionPart);
-                secondMission.completeMission((int)player.getMoney(), player.getReputation(), userInput);
+                secondMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
                 checkWinStatus();
                 System.out.println("Do you want to move on?");
-                if(userInput.nextLine().toUpperCase().equals("YES")){
+                if (userInput.nextLine().toUpperCase().equals("YES")) {
                     checkWinStatus();
-                    Mission thirdMission =  new Mission("Mission 3: The Final Heist",0,30,"After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
-                    thirdMission.completeMission((int)player.getMoney(), player.getReputation(), userInput);
-                }else{
+                    Mission thirdMission = new Mission("Mission 3: The Final Heist", 0, 30,
+                            "After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
+                    MissionPart thirdMissionPart = new MissionPart(thirdMission.getName());
+                    missions.add(thirdMissionPart);
+                    thirdMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
+                } else {
                     pauseGame();
                 }
-                Mission thirdMission =  new Mission("Mission 3: The Final Heist",0,30,"After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
-                thirdMission.completeMission((int)player.getMoney(), player.getReputation(), userInput);
-            }else{
+            } else {
                 pauseGame();
             }
         }
@@ -61,6 +66,7 @@ public class Game {
 
     /**
      * Method to add a mission or side quest.
+     * 
      * @param choice
      */
     public void addMissionorSideQuest(MissionPart choice) {
@@ -70,36 +76,41 @@ public class Game {
             if (validateUserInput(userInput, response)) {
                 System.out.println("Type in 1, 2, 3.");
                 int i = userInput.nextInt();
-                if(i-1<=2 && i-1>=0){
-                    choice.addChoice(choice.getChoices().get(i).getName(), choice.getChoices().get(i).getDescription(), choice.getChoices().get(i).getMoney(), choice.getChoices().get(i).getReputation(), choice.getChoices().get(i).getProbability());
+                if (i - 1 <= 2 && i - 1 >= 0) {
+                    choice.addChoice(choice.getChoices().get(i).getName(), choice.getChoices().get(i).getDescription(),
+                            choice.getChoices().get(i).getMoney(), choice.getChoices().get(i).getReputation(),
+                            choice.getChoices().get(i).getProbability());
                     missions.add(choice);
-                }else{
+                } else {
                     System.out.println("Invalid. Please choose a valid number.");
                 }
                 System.out.println("Choice added successfully!");
-                
+
             }
-            
+
         }
-        
+
     }
+
     /**
      * Validate User's Input
+     * 
      * @param scanner
      * @return true or false for validation
      */
-    public boolean validateUserInput(Scanner scanner, String response){
+    public boolean validateUserInput(Scanner scanner, String response) {
         while (true) {
             System.out.print("\n Enter your choice: ");
-            if(!scanner.hasNext("MISSION") || !scanner.hasNext("SIDEQUEST")){
+            if (!scanner.hasNext("MISSION") || !scanner.hasNext("SIDEQUEST")) {
                 System.out.println("Invalid. Please type in mission or side quest.");
                 scanner.next();
                 continue;
-            }else{
+            } else {
                 return true;
             }
         }
     }
+
     /**
      * Method to add a user to the game.
      */
@@ -149,10 +160,10 @@ public class Game {
             try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
                 String name = reader.readLine().split(":")[1];
                 int money = Integer.parseInt(reader.readLine().split(":")[1]);
-                this.player = new Player(name,money);
+                this.player = new Player(name, money);
                 System.out.println("Game resumed successfully.");
                 checkWinStatus();
-                missions.get(missions.size()-1);
+                missions.get(missions.size() - 1);
             } catch (IOException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
@@ -167,19 +178,21 @@ public class Game {
     public void loadPlayerProgress() {
         try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
             String name = reader.readLine().split(":")[1];
-            int money = Integer.parseInt(reader.readLine().split(":")[1]);  
+            int money = Integer.parseInt(reader.readLine().split(":")[1]);
             player.setName(name);
-            player.setMoney(money);          
+            player.setMoney(money);
             System.out.println("Game loaded successfully");
         } catch (IOException e) {
             System.err.println("Failed to resume the game: " + e.getMessage());
         }
-         
+
     }
-    public void pauseGame(){
+
+    public void pauseGame() {
         saveAndStoreProgress();
         System.out.println("Game paused and the progress is saved.");
     }
+
     /**
      * Method to end the game.
      */
