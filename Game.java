@@ -203,6 +203,7 @@ public class Game {
             player.setName(name);
             player.setMoney(money);
             progress.getOrDefault(saveFile, false);
+            saveAndStoreProgress();
             System.out.println("Game loaded successfully");
         } catch (IOException e) {
             System.err.println("Failed to load the game: " + e.getMessage());
