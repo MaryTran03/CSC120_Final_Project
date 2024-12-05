@@ -40,8 +40,9 @@ public class Game {
             saveAndStoreProgress();
             System.out.println("Do you want to move on?");
             if (userInput.nextLine().toUpperCase().equals("YES")) {
-                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10,
-                        "After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.");
+                Mission secondMission = new Mission("Mission 2: The Warehouse Raid", 0, 10,"After proving yourself in the car heist,"+ 
+                "Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics."+
+                "The warehouse has guards, so you'll need to choose your approach carefully.");
                 MissionPart secondMissionPart = new MissionPart(secondMission.getName());
                 missions.add(secondMissionPart);
                 secondMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
@@ -52,7 +53,10 @@ public class Game {
                 if (userInput.nextLine().toUpperCase().equals("YES")) {
                     checkWinStatus();
                     Mission thirdMission = new Mission("Mission 3: The Final Heist", 0, 30,
-                            "After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
+                    "After proving your skills in the car heist and warehouse raid,"+
+                    "Vinnie trusts you with the crew's biggest job yet—a bank heist."+
+                    "Your role is crucial as the getaway driver." +"
+                    You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.");
                     MissionPart thirdMissionPart = new MissionPart(thirdMission.getName());
                     missions.add(thirdMissionPart);
                     thirdMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
