@@ -54,7 +54,11 @@ public class Game {
                     MissionPart thirdMissionPart = new MissionPart(thirdMission.getName());
                     missions.add(thirdMissionPart);
                     thirdMission.completeMission((int) player.getMoney(), player.getReputation(), userInput);
-                } else {
+                    System.out.println("Do you want to check your win status?");
+                    if(userInput.nextLine().toUpperCase().equals("YES")){
+                        checkWinStatus();
+                    }
+                 } else {
                     pauseGame();
                 }
             } else {
