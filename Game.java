@@ -165,8 +165,9 @@ public class Game {
      * Method to save and store progress of the game.
      */
     public void saveAndStoreProgress() {
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(SAVE_FILE))) {
-            System.out.println("Saving game progress...");
+        String userFileName = player.getName() + "_save.txt";
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(userFileName))) {
+            System.out.println("Saving game progress for" + player.getName() + "...");
             out.write("Player name:" + player.getName() + "\n");
             out.write("Reputation:" + player.getReputation() + "\n");
             out.write("Money:" + player.getMoney() + "\n");
@@ -182,8 +183,9 @@ public class Game {
     /**
      * Method to resume the game from saved progress.
      */
-    public void resume() {
-        File saveFile = new File(SAVE_FILE);
+    public void resume(String playerName) {
+        String userFileName = player.getName() + "_save.txt";
+        File saveFile = new File(userFileName);
         if (saveFile.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
                 String name = reader.readLine().split(":")[1];
@@ -203,8 +205,9 @@ public class Game {
     /**
      * Method to load the game with saved progress.
      */
-    public void loadPlayerProgress() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
+    public void loadPlayerProgress(String playerName) {
+        String userFileName = playerName + "_save.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
             String name = reader.readLine().split(":")[1];
             int reputation = Integer.parseInt(reader.readLine().split(":")[1]);
             double doubleMoney = Double.parseDouble(reader.readLine().split(":")[1]); 
@@ -238,7 +241,7 @@ public class Game {
         if(response.toUpperCase().equals("SAVE")){
             saveAndStoreProgress();
         }else{
-            loadPlayerProgress();
+            loadPlayerProgress(player.getName());
         }
        
         System.out.println("Game paused and the progress is saved.");
