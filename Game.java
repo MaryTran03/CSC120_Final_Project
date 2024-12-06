@@ -32,7 +32,7 @@ public class Game {
         System.out.println("Type in 'start' or 'resume'.");
         String response = userInput.nextLine().toUpperCase();
         if (response.equals("RESUME")) {
-            resume();
+            resume(player.getName());
         } else {
             users.add(player);
             System.out.println("Welcome to the game!");
@@ -76,14 +76,14 @@ public class Game {
                     pauseGame();
                     System.out.println("The game is paused. Do you want to continue?");
                     if (userInput.nextLine().toUpperCase().equals("YES")) {
-                        resume();
+                        resume(player.getName());
                     }
                 }
             } else {
                 pauseGame();
                 System.out.println("The game is paused. Do you want to continue?");
                 if (userInput.nextLine().toUpperCase().equals("YES")) {
-                    resume();
+                    resume(player.getName());
                 }
             }
         }
