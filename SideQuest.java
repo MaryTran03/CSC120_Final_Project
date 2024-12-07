@@ -37,8 +37,52 @@ public class SideQuest {
         }
     }
 
-    // Handle simple quests
-    public static void completeSimpleQuest(Scanner scanner, double hourlyWage, int currentMoney) {
+    // // Handle simple quests
+    // public static void completeSimpleQuest(Scanner scanner, double hourlyWage, int currentMoney) {
+    //     System.out.print("\n How many hours do you want to work? ");
+    //     double hoursWorked = validateInput(scanner, 1, 24); // Allow up to 24 hours
+    //     double earnings = hoursWorked * hourlyWage;
+    //     System.out.println("\n You worked for " + hoursWorked + " hours and earned $" + earnings + ".");
+    //     System.out.println("Side quest completed successfully!");
+
+    //     currentMoney += earnings;
+    //     System.out.println("Current Money:" + currentMoney);                 
+
+    // }
+
+    // // Handle complex quests
+    // public static void completeComplexQuest(Scanner scanner, ArrayList<Choice> choices, int currentMoney, int currentReputation) {
+    //     System.out.println("\n Your Choices:");
+    //     for (int i = 0; i < choices.size(); i++) {
+    //         Choice co = choices.get(i);
+    //         System.out.println((i + 1) + ". " + co.getName() + " - " + co.getDescription());
+    //     }
+
+    //     // Validate user input
+    //     int input = validateInput(scanner, 1, choices.size());
+        
+    //     // Execute the validated choice
+    //     Choice selectedChoice = choices.get( input - 1);
+    //     Random rand = new Random();
+
+    //     if (rand.nextDouble(1) <= selectedChoice.getSuccessProbability()){
+    //         currentMoney = currentMoney + selectedChoice.getMoneyReward();
+    //         currentReputation = currentReputation+ selectedChoice.getReputationReward();
+    //         System.out.println("\n Success!"); 
+    //         System.out.println("Current Money: $" + currentMoney);                 
+    //         System.out.println("Current Reputation:" + currentReputation); 
+
+    //     } else {
+    //         System.out.println("\n Got caught! Again??? Lose $50 and 5 reputation point"); 
+    //         currentMoney -= 50;
+    //         currentReputation -= 5;
+    //         System.out.println("Current Money: $" + currentMoney);                 
+    //         System.out.println("Current Reputation:" + currentReputation); 
+    //     }
+    // }
+
+        // Handle simple quests
+    public static int[] completeSimpleQuest(Scanner scanner, double hourlyWage, int currentMoney) {
         System.out.print("\n How many hours do you want to work? ");
         double hoursWorked = validateInput(scanner, 1, 24); // Allow up to 24 hours
         double earnings = hoursWorked * hourlyWage;
@@ -46,12 +90,13 @@ public class SideQuest {
         System.out.println("Side quest completed successfully!");
 
         currentMoney += earnings;
-        System.out.println("Current Money:" + currentMoney);                 
+        System.out.println("Current Money:" + currentMoney);
 
+        return new int[]{currentMoney, 0}; // Return updated money and reputation change
     }
 
     // Handle complex quests
-    public static void completeComplexQuest(Scanner scanner, ArrayList<Choice> choices, int currentMoney, int currentReputation) {
+    public static int[] completeComplexQuest(Scanner scanner, ArrayList<Choice> choices, int currentMoney, int currentReputation) {
         System.out.println("\n Your Choices:");
         for (int i = 0; i < choices.size(); i++) {
             Choice co = choices.get(i);
@@ -60,24 +105,27 @@ public class SideQuest {
 
         // Validate user input
         int input = validateInput(scanner, 1, choices.size());
-        
+
         // Execute the validated choice
-        Choice selectedChoice = choices.get( input - 1);
+        Choice selectedChoice = choices.get(input - 1);
         Random rand = new Random();
 
-        if (rand.nextDouble(1) <= selectedChoice.getSuccessProbability()){
-            currentMoney = currentMoney + selectedChoice.getMoneyReward();
-            currentReputation = currentReputation+ selectedChoice.getReputationReward();
-            System.out.println("\n Success!"); 
-            System.out.println("Current Money: $" + currentMoney);                 
-            System.out.println("Current Reputation:" + currentReputation); 
+        if (rand.nextDouble() <= selectedChoice.getSuccessProbability()) {
+            currentMoney += selectedChoice.getMoneyReward();
+            currentReputation += selectedChoice.getReputationReward();
+            System.out.println("\n Success!");
+            System.out.println("Current Money: $" + currentMoney);
+            System.out.println("Current Reputation: " + currentReputation);
 
+            return new int[]{currentMoney, currentReputation};
         } else {
-            System.out.println("\n Got caught! Again??? Lose $50 and 5 reputation point"); 
+            System.out.println("\n Got caught! Again??? Lose $50 and 5 reputation points");
             currentMoney -= 50;
             currentReputation -= 5;
-            System.out.println("Current Money: $" + currentMoney);                 
-            System.out.println("Current Reputation:" + currentReputation); 
+            System.out.println("Current Money: $" + currentMoney);
+            System.out.println("Current Reputation: " + currentReputation);
+
+            return new int[]{currentMoney, currentReputation};
         }
     }
 
