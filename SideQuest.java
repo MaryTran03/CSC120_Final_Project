@@ -44,7 +44,10 @@ public class SideQuest {
         double earnings = hoursWorked * hourlyWage;
         System.out.println("\n You worked for " + hoursWorked + " hours and earned $" + earnings + ".");
         System.out.println("Side quest completed successfully!");
+
         currentMoney += earnings;
+        System.out.println("Current Money:" + currentMoney);                 
+
     }
 
     // Handle complex quests
@@ -62,21 +65,19 @@ public class SideQuest {
         Choice selectedChoice = choices.get( input - 1);
         Random rand = new Random();
 
-        if (rand.nextDouble(1) < selectedChoice.getSuccessProbability()){
-            currentMoney += selectedChoice.getMoneyReward();
-            currentReputation += selectedChoice.getReputationReward();
-
+        if (rand.nextDouble(1) <= selectedChoice.getSuccessProbability()){
+            currentMoney = currentMoney + selectedChoice.getMoneyReward();
+            currentReputation = currentReputation+ selectedChoice.getReputationReward();
             System.out.println("\n Success!"); 
-            System.out.println("Current Money:" + currentMoney);                 
+            System.out.println("Current Money: $" + currentMoney);                 
             System.out.println("Current Reputation:" + currentReputation); 
 
         } else {
             System.out.println("\n Got caught! Again??? Lose $50 and 5 reputation point"); 
             currentMoney -= 50;
             currentReputation -= 5;
-            System.out.println("Current Money:" + currentMoney);                 
+            System.out.println("Current Money: $" + currentMoney);                 
             System.out.println("Current Reputation:" + currentReputation); 
-
         }
     }
 

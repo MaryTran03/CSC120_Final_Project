@@ -18,6 +18,8 @@ class Node {
         this.node = new Hashtable<>();
         this.node.put(key, description);
         this.name = name;
+        this.minMoney = minMoney;
+        this.minReputation = minReputation;
     }
 
     // Getters

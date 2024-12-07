@@ -3,14 +3,19 @@ import java.util.*;
 class GameGraph {
     private Map<Node, List<Choice>> graph;
     private ArrayList<SideQuest> sideQuests;
+    private ArrayList<Node> orderNodes;
 
     public GameGraph() {
         graph = new HashMap<>();
         this.sideQuests = new ArrayList<SideQuest>();
+        this.orderNodes = new ArrayList<Node>();
     }
 
     public void addSideQuest(SideQuest sideQuest) { this.sideQuests.add(sideQuest);}
-    public void addNode(Node node) { graph.putIfAbsent(node, new ArrayList<>());}
+    public void addNode(Node node) { 
+        graph.putIfAbsent(node, new ArrayList<>());
+        orderNodes.add(node);}
+
     public void addEdge(Node node1, Choice choice) {
         if (graph.containsKey(node1)) {
             graph.get(node1).add(choice);}
@@ -18,6 +23,7 @@ class GameGraph {
 
     public List<Choice> getChoices(Node node) { return graph.getOrDefault(node, new ArrayList<>());    }
     public ArrayList<SideQuest> getSideQuests() { return this.sideQuests;    }
+    public ArrayList<Node> getOrderNodes() { return this.orderNodes;    }
 
     public void displayChoices(List<Choice> choices) {
         System.out.println("Your Choices:");
@@ -71,23 +77,25 @@ class GameGraph {
 
     private boolean isSuccessful(double probability) { 
         Random rand = new Random(); 
-        return rand.nextDouble(1) < probability; 
+        return rand.nextDouble(1) <= probability; 
     }
 
     private boolean canAccessNode(Node node, int currentMoney, int currentReputation) { 
         return currentMoney >= node.getMinMoney() && currentReputation >= node.getMinReputation(); 
     }
 
-    public void traverse(Scanner scanner, int currentMoney, int currentReputation, Node startNode, Node endNode){
-        Node currentNode = startNode;
+    public void traverse(Scanner scanner, int currentMoney, int currentReputation){
+        ArrayList<Node> orderNodes = this.getOrderNodes();
+        Node currentNode = orderNodes.get(0); // Set the default currentNode to the first of the startNode aka the first index
 
-        while(canAccessNode(currentNode, currentMoney, currentReputation)){
+
+        while(true){
             System.out.println("\n Current Part: " + currentNode.getName()); 
             List<Choice> choices = getChoices(currentNode); 
 
             // Break if end game
             if (choices.isEmpty()) { 
-                System.out.println("No more missions available. End of the path."); 
+                System.out.println("CONGRATS! YOU COMPLETED THE GAME"); 
                 break; 
             }
             
@@ -97,6 +105,8 @@ class GameGraph {
             Choice selectedChoice = choices.get(userInput - 1); // Minus 1 because indexing start at 1
 
             // Execute the choice with probability
+
+            // If successful
             if (isSuccessful(selectedChoice.getSuccessProbability())) { 
                 currentNode = selectedChoice.getNextNode(); 
 
@@ -109,6 +119,7 @@ class GameGraph {
                 System.out.println("Current Reputation:" + currentReputation); 
             } 
 
+            // If not successful
             else { 
                 System.out.println("\n You are caught and beaten! Lose 10 reputation points and pay $100 in bail or damage ." + currentNode.getName() + " mission failed!"); 
                 // Update the Money and Reputation Points
@@ -117,53 +128,60 @@ class GameGraph {
 
                 System.out.println("Current Money: " + currentMoney);                 
                 System.out.println("Current Reputation: " + currentReputation); 
+
+                //Update the node;
+                currentNode = updateNode(currentNode);
+                System.out.println("\n You have to restart at " + currentNode.getName());
+
+                while(true){
+                    if (canAccessNode(currentNode, currentMoney, currentReputation)){
+                        System.out.println("\n Luckily, you earned enough money and reputation to resume at " + currentNode.getName());
+                        System.out.println("There is no need to do Side Quest. Mission resumed ... ");
+                        break;
+                    } else {
+                        // Create a loop to ask users to work on SideQuest to earn enough money        
+                        while(true){
+                            System.out.println("\n You have not earned enough money and reputation to resume at " + currentNode.getName()); 
+                            System.out.println("Minimum requirements $" + currentNode.getMinMoney() + ", Reputation: " + currentNode.getMinReputation());
+                            System.out.println("You need to complete side quests to increase your money and reputation.");     
+                            
+                            // Keep asking users to Side Quest unless they want to resume their misisons (and if they are eligible to)
+                            completeSideQuest(scanner, currentMoney, currentReputation); 
+
+                            // After complete SideQuest check their current status. If they are eligible ask if they want to continue to do SideQuests
+                            if (canAccessNode(currentNode, currentMoney, currentReputation)){
+                                System.out.println("\n Do you want to repeat a side quest or try to advance to resume the mission ?");
+                                System.out.println("1: Keep doing Side Quests to earn more money and reputation");
+                                System.out.println("2: Resume the mission " + currentNode.getName());
+                                int input = getUserInput(scanner, 1, 2);
+                                if (input == 2) { // Choosing 2 means to resume the mission. 
+                                    break;
+                            }
+                        }
+                    } 
+                    continue;
+                }
             }
-            
-            Node nextNode = selectedChoice.getNextNode();
-
-            if(!canAccessNode(nextNode, currentMoney, currentReputation)){
-                // SideQuest
-                System.out.println("\n Cannot access " + nextNode.getName() + ". Minimum requirements not met. Money: " + nextNode.getMinMoney() + ", Reputation: " + nextNode.getMinReputation()); // Direct user to side quests 
-                System.out.println("You need to complete side quests to increase your money and reputation."); 
-                boolean repeat = true; 
-                
-                while (repeat) { 
-                    completeSideQuest(scanner, currentMoney, currentReputation); 
-                    System.out.println("\n Do you want to repeat a side quest (1) or try to advance to the remaining mission (2)?");
-                    int nextAction = getUserInput(scanner, 1, 2);
-
-                    if (nextAction == 2) { repeat = false; } 
-                } 
-                    continue; 
-            }
-
-                //currentNode = selectedChoice.getNextNode(); 
         
-
-            if (currentNode == endNode){
+            // Conditions to end the game
+            if (currentNode == orderNodes.get(orderNodes.size() - 1)){
                 System.err.println("CONGRATS! YOU COMPLETED THE GAME");
                 break;
             }
         }
     }
-    
-    // public boolean executeChoice(int choiceIndex){
-    //     Random random = new Random();
-    //     // Get the selected choice object from the list of choices
-    //     Choice selectedChoice = this.Choices.get(choiceIndex - 1); // Minus 1 because the choiceIndex starts with 1
+}
+        private Node updateNode(Node currentNode){
+            int currentIndex = this.getOrderNodes().indexOf(currentNode);
+            // If the currentCode is not divided by 2, reset the currentNode to currentNode - 1
+            if (this.getOrderNodes().indexOf(currentNode) % 2 == 1){
+                currentIndex -= 1;
+                currentNode = this.getOrderNodes(). get(currentIndex);
+            }
+            return currentNode;
+        }
 
-    //     // Incorporate the probability
-    //     if (random.nextDouble(1) < selectedChoice.getProbability()) {
-    //         System.out.println("Success! You earnt $" + selectedChoice.getMoney() + " and " + selectedChoice.getReputation() + " reputation points");
-    //         return true;
-    //     } else {
-    //         System.out.println("You are caught by the police, lose 10 reputation points and $200 in bail.");
-    //         selectedChoice.setMoney(-200);
-    //         selectedChoice.setReputation(-10);
-    //         return false;
-    //     }
-    // }
-
+    // while (true) { if (canAccessNode(currentNode, currentMoney, currentReputation)) { System.out.println("\n Requirements met. Resuming mission."); break; } else { System.out.println("\n Cannot access " + currentNode.getName() + ". Minimum requirements not met. Money: " + currentNode.getMinMoney() + ", Reputation: " + currentNode.getMinReputation()); System.out.println("You need to complete side quests to increase your money and reputation."); completeSideQuest(scanner, currentMoney, currentReputation); } }
 
     public static void main(String[] args) {
         GameGraph game = new GameGraph();
@@ -191,6 +209,7 @@ class GameGraph {
         game.addNode(mission2_2);
         game.addNode(mission3_1);
         game.addNode(mission3_2);
+        game.addNode(endNode);
 
 
         // Add choices
@@ -256,16 +275,18 @@ class GameGraph {
         badDebt.addChoice("Polite", "Approach the business owner with a firm but nonthreatening attitude. This will lower your chance of increasing your reputation and reduce the chance of them resisting or calling the police."
                         , 100, 5, 0.9);
         badDebt.addChoice("Intimidating", "Use intimidation to collect the payment faster and increase your reputation more. However, this increases the risk of the owner calling the police, which could cost you more money in bail if caught."
-                        , 100, 5, 0.7);
+                        , 150, 10, 0.7);
         
         // Add Side Quest 2: Burger King
-        SideQuest burgerKing = new SideQuest("Burger King", "Work at a local shop to save up some money. However, this doesn't increase your reputation points with Vinnie", 14.75);
+        SideQuest burgerKing = new SideQuest("Burger King", "Work at a local shop to save up some money. \n However, this doesn't increase your reputation points with Vinnie", 14.75);
         game.addSideQuest(burgerKing);
         game.addSideQuest(badDebt);
 
     // Traverse the graph
         Scanner scanner = new Scanner(System.in);        
-        game.traverse(scanner, 200, 0, mission1_1, endNode); // Start with $200 and 20 reputation
+        
+        game.traverse(scanner, 200, 0); // Start with $200 and 20 reputation
+        
         scanner.close();
     }
 }
