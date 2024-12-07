@@ -5,7 +5,7 @@ Win the game: Win by either acquiring $800 or 40 reputation points.
 ## Side Quests (to either increase reputation points or money): 
 - Side Quests are always available
 
-## Side Quest 1: Debt Collection
+## Side Quest 1: Debt Collection 
 Objective: Help Vinnie collect overdue payments from local business owners who owe him money. Description: Vinnie isn’t pleased with your recent actions and wants you to prove yourself useful. He assigns you to collect “protection fees” from two local businesses in Rivertown. Approach them to demand payment, but handle it carefully—being too aggressive may backfire.
 
 ### Key Choices:
@@ -29,6 +29,9 @@ Successful Collection:
 Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
 Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it. Vinnie 
 
+### Requirements: 
+$200, 0 reputation point
+
 ### Key Choices:
 - Steal the cheaper car or more expensive car
     Probability of success: 1.00 (assuming zero risk of being caught by the police)
@@ -48,6 +51,10 @@ Description: Vinnie needs a luxury car for a deal and sends you to steal one fro
 Objective: Infiltrate the Iron Hounds’ warehouse and steal valuable goods for Vinnie. Need 10 reputation points to unlock
 Description: After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.
 
+### Requirements: 
+$200, 10 reputation point
+
+
 ### Key Choices
 - Collecting the Stash:
     - Quick Grab: Take one item and leave quickly to avoid detection.
@@ -65,9 +72,11 @@ Description: After proving yourself in the car heist, Vinnie gives you a tougher
     Reward: Money +$50 for avoiding detection.
 
 ## Mission 3: The Final Heist
-Need 30 reputation points to unlock
-
 Objective: Pull off a bank heist with Vinnie’s crew as the getaway driver. Description: After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.
+
+### Requirements: 
+$200, 30 reputation point
+
 
 ### Key Choices
 - Police Chase:

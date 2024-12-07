@@ -1,27 +1,38 @@
 public class Choice {
-    private String name;
-    private int reputation; // The reputation reward. 
-    private int money; // The money reward. Can be negative
-    private double probability; // Probability of success between 0.0 and 1.0
     private String description;
+    private String name;
+    private double successProbability;
+    private int moneyReward;
+    private int reputationReward;
+    private Node nextNode; // The next Node if successful
 
-    public Choice(String name, String description, int money, int reputation, double probability){
-        this.name = name;
+    // Constructor
+    public Choice(String name, String description,  int moneyReward, int reputationReward, double successProbability,Node nextNode) {
         this.description = description;
-        this.money = money;
-        this.reputation = reputation;
-        this.probability = probability;
+        this.name = name;
+        this.successProbability = successProbability;
+        this.moneyReward = moneyReward;
+        this.reputationReward = reputationReward;
+        this.nextNode = nextNode; // The next Node if successful
+    }
+
+    // Overload constructor for simple choices in Side Quest
+    public Choice(String name, String description,  int moneyReward, int reputationReward, double successProbability) {
+        this.description = description;
+        this.name = name;
+        this.successProbability = successProbability;
+        this.moneyReward = moneyReward;
+        this.reputationReward = reputationReward;
     }
 
     // Getters
-    public String getName() { return name; }
-    public String getDescription() { return this.description; }
-    public int getReputation() { return this.reputation; }
-    public int getMoney() { return this.money; }
-    public double getProbability() { return this.probability; }
+    public String getName() { return this.name; }
+    public String getDescription() { return description; }
+    public double getSuccessProbability() { return successProbability; }
+    public int getMoneyReward() { return moneyReward; }
+    public int getReputationReward() { return reputationReward; }
+    public Node getNextNode() { return nextNode; }
 
     // Setters
-    public void setReputation(int newReputation) {this.reputation = newReputation; }
-    public void setMoney(int newMoney) {this.money = newMoney; }
-
+    public void setNextNodeNull() { this.nextNode = null;}
 }

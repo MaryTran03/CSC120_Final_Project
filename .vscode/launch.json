@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GameGraph",
+            "request": "launch",
+            "mainClass": "GameGraph",
+            "projectName": "CSC120_Final_Project-1_ccc0b0c4"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "CSC120_Final_Project-1_ccc0b0c4"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
