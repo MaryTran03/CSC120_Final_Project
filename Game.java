@@ -97,6 +97,7 @@ public class Game {
                 int money = Integer.parseInt(reader.readLine().split(":")[1]);
                 this.player = new Player(name, money);
                 progress.getOrDefault(saveFile, false);
+                System.out.println(money);
                 System.out.println("Game resumed successfully.");
                 checkWinStatus();
             } catch (IOException e) {
@@ -104,6 +105,7 @@ public class Game {
             }
         } else {
             System.out.println("No saved game found. Starting a new game.");
+            startGame(player);
         }
     }
 
