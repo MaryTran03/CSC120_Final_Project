@@ -70,7 +70,7 @@ public class Game {
      * Method to save and store progress of the game.
      */
     public void saveAndStoreProgress() {
-        String userFileName = player.getName() + "_save.txt";
+        String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
         try (BufferedWriter out = new BufferedWriter(new FileWriter(userFileName))) {
             System.out.println("Saving game progress for" + player.getName() + "...");
             out.write("Player name:" + player.getName() + "\n");
@@ -82,10 +82,14 @@ public class Game {
                 out.write("Last completed Mission:None\n");
             }
             out.flush();
-            addUser(player);
+            if(!users.contains(player)){
+                addUser(player);
+
+            }
             System.out.println("Game progress saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save the game: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -93,24 +97,34 @@ public class Game {
      * Method to resume the game from saved progress.
      */
     public void resume(String playerName) {
-        String userFileName = player.getName() + "_save.txt";
+        String userFileName = playerName + "_save.txt";
         File saveFile = new File(userFileName);
         if (saveFile.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
+                System.out.println("Reading saved file: "+ userFileName);
                 String nameLine = reader.readLine();
+                String reputationLine = reader.readLine();
                 String moneyLine = reader.readLine();
+                String missionLine = reader.readLine();
+
                 String name = nameLine.split(":")[1].trim();
-                int money = Integer.parseInt( moneyLine.split(":")[1].trim());
-                this.player = new Player(name, money);
-                progress.getOrDefault(saveFile, false);
-                System.out.println("Player Name: " + name);
-                System.out.println("Player Money: " + money);
+                int reputation = Integer.parseInt( reputationLine.split(":")[1].trim());
+                double money = Double.parseDouble( moneyLine.split(":")[1].trim());
+                
+                player.setName(name);
+                player.setMoney(money);
+                player.setReputation(reputation);
+                String lastMission = (missionLine != null && !missionLine.equals("Last Completed Mission:None"))
+                ? missionLine.split(":")[1].trim() : "None";
+
+                System.out.println("Player Name: " + player.getName());
+                System.out.println("Player Reputation: " + player.getReputation());
+                System.out.println("Player Money: " + player.getMoney());
+                System.out.println("Last Completed Mission: " + lastMission);
                 System.out.println("Game resumed successfully.");
                 checkWinStatus();
-            } catch (IOException e) {
+            } catch (IOException | NumberFormatException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
-            } catch (NumberFormatException e){
-                System.err.println("Error parsing the saved game data: " + e.getMessage());
             }
         } else {
             System.out.println("No saved game found. Starting a new game.");
