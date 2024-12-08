@@ -111,15 +111,9 @@ public class Game {
      * Method to pause the game
      */
     public void pauseGame() {
-        System.out.println("Do you want to save?");
-        String response = userInput.nextLine().toUpperCase();
-        if(response.toUpperCase().equals("YES")){
-            saveAndStoreProgress();
-            System.out.println("Game saved and paused successfully");
-        }/*else{
-            loadPlayerProgress(player.getName());
-        }
-       */
+        saveAndStoreProgress();
+        System.out.println("Game paused.");
+        
     }
 
     /**
