@@ -222,8 +222,6 @@ class GameGraph {
             return currentNode;
         }
 
-    // while (true) { if (canAccessNode(currentNode, currentMoney, currentReputation)) { System.out.println("\n Requirements met. Resuming mission."); break; } else { System.out.println("\n Cannot access " + currentNode.getName() + ". Minimum requirements not met. Money: " + currentNode.getMinMoney() + ", Reputation: " + currentNode.getMinReputation()); System.out.println("You need to complete side quests to increase your money and reputation."); completeSideQuest(scanner, currentMoney, currentReputation); } }
-
     public static void main(String[] args) {
         GameGraph game = new GameGraph();
 
