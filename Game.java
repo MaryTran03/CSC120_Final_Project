@@ -166,6 +166,7 @@
 //      */
 //     public void saveAndStoreProgress() {
 //         try (BufferedWriter out = new BufferedWriter(new FileWriter(SAVE_FILE))) {
+//              ArrayList progress = new traverse(scanner, currentMoney, current reputation)
 //             System.out.println("Saving game progress...");
 //             out.write("Player name:" + player.getName() + "\n");
 //             out.write("Reputation:" + player.getReputation() + "\n");

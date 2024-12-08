@@ -91,6 +91,9 @@ class GameGraph {
         return currentMoney >= node.getMinMoney() && currentReputation >= node.getMinReputation(); 
     }
 
+    /*
+     * Return the players currentMoney, currentReputation, currentNodeIndex
+     */
     public void traverse(Scanner scanner, int currentMoney, int currentReputation){
         ArrayList<Node> orderNodes = this.getOrderNodes();
         Node currentNode = orderNodes.get(0); // Set the default currentNode to the first of the startNode aka the first index
