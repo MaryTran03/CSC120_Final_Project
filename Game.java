@@ -1,12 +1,12 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Hashtable;
+//import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Game {
-    private static final String SAVE_FILE = "./save_game.txt";
+   // private static final String SAVE_FILE = "./save_game.txt";
     private ArrayList<Player> users;
-    private Hashtable<String, Boolean> progress;
+    //private Hashtable<String, Boolean> progress;
     private ArrayList<MissionPart> missions;
 
     private Player player;
@@ -16,7 +16,7 @@ public class Game {
     public Game(Player player) {
         this.player = player;
         this.users = new ArrayList<>();
-        this.progress = new Hashtable<>();
+       // this.progress = new Hashtable<>();
         this.userInput = new Scanner(System.in);
         this.missions = new ArrayList<>();
     }
