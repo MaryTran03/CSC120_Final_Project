@@ -205,7 +205,7 @@ public class Game {
     /**
      * Method to load the game with saved progress.
      */
-    public void loadPlayerProgress(String playerName) {
+    /*public void loadPlayerProgress(String playerName) {
         String userFileName = playerName + "_save.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
             String name = reader.readLine().split(":")[1];
@@ -236,15 +236,15 @@ public class Game {
      * Method to pause the game
      */
     public void pauseGame() {
-        System.out.println("Do you want to save manually or automatically?");
+        System.out.println("Do you want to save?");
         String response = userInput.nextLine().toUpperCase();
-        if(response.toUpperCase().equals("SAVE")){
+        if(response.toUpperCase().equals("YES")){
             saveAndStoreProgress();
-        }else{
+            System.out.println("Game saved and paused successfully");
+        }/*else{
             loadPlayerProgress(player.getName());
         }
-       
-        System.out.println("Game paused and the progress is saved.");
+       */
     }
 
     /**
