@@ -76,7 +76,11 @@ public class Game {
             out.write("Player name:" + player.getName() + "\n");
             out.write("Reputation:" + player.getReputation() + "\n");
             out.write("Money:" + player.getMoney() + "\n");
-            out.write("Last completed Mission:" + missions.getLast().getName());
+            if(missions != null && !missions.isEmpty()){
+                out.write("Last completed Mission:" + missions.get(missions.size()-1).getName() + "\n");
+            }else{
+                out.write("Last completed Mission:None\n");
+            }
             out.flush();
             addUser(player);
             System.out.println("Game progress saved successfully.");
@@ -93,15 +97,20 @@ public class Game {
         File saveFile = new File(userFileName);
         if (saveFile.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(SAVE_FILE))) {
-                String name = reader.readLine().split(":")[1];
-                int money = Integer.parseInt(reader.readLine().split(":")[1]);
+                String nameLine = reader.readLine();
+                String moneyLine = reader.readLine();
+                String name = nameLine.split(":")[1].trim();
+                int money = Integer.parseInt( moneyLine.split(":")[1].trim());
                 this.player = new Player(name, money);
                 progress.getOrDefault(saveFile, false);
-                System.out.println(money);
+                System.out.println("Player Name: " + name);
+                System.out.println("Player Money: " + money);
                 System.out.println("Game resumed successfully.");
                 checkWinStatus();
             } catch (IOException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
+            } catch (NumberFormatException e){
+                System.err.println("Error parsing the saved game data: " + e.getMessage());
             }
         } else {
             System.out.println("No saved game found. Starting a new game.");
