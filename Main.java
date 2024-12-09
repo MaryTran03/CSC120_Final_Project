@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         GameGraph game = new GameGraph();
@@ -100,15 +98,11 @@ public class Main {
         game.addSideQuest(burgerKing);
         game.addSideQuest(badDebt);
 
-    // Traverse the graph
-        Scanner scanner = new Scanner(System.in);        
+        // Run the graph
+        //game.resume("trang");
+        Player player = game.startGame();
+        game.traverse(player);
+        game.endGame();
         
-        Player trang = new Player("Trang", 0, mission1_1);
-
-        game.traverse(scanner, trang); // Start with $200 and 20 reputation
-        
-        scanner.close();
     }
-
-    
 }

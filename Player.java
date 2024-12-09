@@ -5,7 +5,8 @@ public class Player{
     private double currentMoney;     // Starting amount of money
     private Node currentNode; // Current Mission
    
-    public Player(String name, double currentMoney, Node currentNode) {
+    // For old players
+    public Player(String name, double currentMoney, int currentReputation, Node currentNode) {
         this.currentNode = currentNode;
         this.name = name;
         this.currentReputation = 0;  // Start reputation at 0
@@ -13,6 +14,7 @@ public class Player{
        
     }
 
+    // For new players with default values for current reputation
     public Player(String name, Node currentNode) {
         this.currentNode = currentNode;
         this.name = name;
@@ -22,7 +24,8 @@ public class Player{
     }
     // Getters and Setters
     public String getName() { return name; }
-    public Node getcurrentNode() { return this.currentNode ; }
+    public Node getCurrentNode() { return this.currentNode ; }
+    public void setCurrentNode(Node currentNode) { this.currentNode = currentNode ; }
 
 
     public void setName(String name) { this.name = name; }

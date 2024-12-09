@@ -1,29 +1,6 @@
 # CSC120_Final_Project Description
 
-Win the game: Win by either acquiring $800 or 40 reputation points. 
-
-## Side Quests (to either increase reputation points or money): 
-- Side Quests are always available
-
-## Side Quest 1: Debt Collection 
-Objective: Help Vinnie collect overdue payments from local business owners who owe him money. Description: Vinnie isn’t pleased with your recent actions and wants you to prove yourself useful. He assigns you to collect “protection fees” from two local businesses in Rivertown. Approach them to demand payment, but handle it carefully—being too aggressive may backfire.
-
-### Key Choices:
-- Polite but Firm: Approach the business owner with a firm but nonthreatening attitude. This will lower your chance of increasing your reputation and reduce the chance of them resisting or calling the police.
-- Intimidating: Use intimidation to collect the payment faster. However, this increases the risk of the owner calling the police, which could cost you more money in bail if caught.
-Outcomes:
-
-Successful Collection:
-- Polite but Firm: Reputation +5, Money +$100.
-- Intimidating: Reputation +10, Money +$150, with a 20% chance of police involvement (Money -$100 for bail).
-- Failed Collection (if police are called): Money -$100, Reputation -5 (for getting caught).
-
-## Side Quest 2: Burger King
-- Earnings: $15/hr
-- Total money earned: 15 hours worked + no increase in reputation
-
-### Key Choices: 
-- How many hours do you want to work? 
+Win the game: Finish all 3 missions. There are two mission parts within a mission
 
 ## Mission 1: The Car Heist
 Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
@@ -92,6 +69,29 @@ $200, 30 reputation point
     Betray the Crew: Escape with the entire loot.
         Outcome: Money +$500 but Reputation -20 (Vinnie and his crew will hunt you down in future missions).
 
+
+## Side Quests (to either increase reputation points or money): 
+- Side Quests are available if the user cant unlock the next sub-missions
+
+## Side Quest 1: Debt Collection 
+Objective: Help Vinnie collect overdue payments from local business owners who owe him money. Description: Vinnie isn’t pleased with your recent actions and wants you to prove yourself useful. He assigns you to collect “protection fees” from two local businesses in Rivertown. Approach them to demand payment, but handle it carefully—being too aggressive may backfire.
+
+### Key Choices:
+- Polite but Firm: Approach the business owner with a firm but nonthreatening attitude. This will lower your chance of increasing your reputation and reduce the chance of them resisting or calling the police.
+- Intimidating: Use intimidation to collect the payment faster. However, this increases the risk of the owner calling the police, which could cost you more money in bail if caught.
+Outcomes:
+
+Successful Collection:
+- Polite but Firm: Reputation +5, Money +$100.
+- Intimidating: Reputation +10, Money +$150, with a 20% chance of police involvement (Money -$100 for bail).
+- Failed Collection (if police are called): Money -$100, Reputation -5 (for getting caught).
+
+## Side Quest 2: Burger King
+- Earnings: $15/hr
+- Total money earned: 15 hours worked + no increase in reputation
+
+### Key Choices: 
+- How many hours do you want to work? 
 
 ### Ideas for the code reviews
 - Method for the repeated lines, consider overloading 

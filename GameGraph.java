@@ -1,18 +1,23 @@
 import java.util.*;
+import java.io.*;
 
 class GameGraph {
     private ArrayList<Player> players;
     private Map<Node, List<Choice>> graph;
     private ArrayList<SideQuest> sideQuests;
     private ArrayList<Node> orderNodes;
+    private Scanner scanner;
 
     public GameGraph() {
+        this.scanner = new Scanner(System.in);
         graph = new HashMap<>();
         this.sideQuests = new ArrayList<SideQuest>();
         this.orderNodes = new ArrayList<Node>();
+        this.players = new ArrayList<Player>();
     }
 
     public void addSideQuest(SideQuest sideQuest) { this.sideQuests.add(sideQuest);}
+
     public void addNode(Node node) { 
         graph.putIfAbsent(node, new ArrayList<>());
         orderNodes.add(node);}
@@ -27,6 +32,16 @@ class GameGraph {
     public ArrayList<Node> getOrderNodes() { return this.orderNodes;    }
     public ArrayList<Player> getPlayers() { return this.players;    }
 
+    // Describe the game
+    public void describeGame(){
+        System.out.println("WELCOME TO THE GAME");
+    }
+
+    // End game 
+    public void endGame(){
+        System.out.println("Thank you for player the game!");
+        scanner.close();
+    }
 
     public void displayChoices(List<Choice> choices) {
         System.out.println("Your Choices:");
@@ -87,6 +102,11 @@ class GameGraph {
         return rand.nextDouble(1) <= probability; 
     }
 
+    /*
+     * Return the player
+     */
+    
+
     private boolean canAccessNode(Node node, Player player) { 
         return player.getCurrentMoney() >= node.getMinMoney() && player.getCurrentReputation() >= node.getMinReputation(); 
     }
@@ -94,22 +114,43 @@ class GameGraph {
     /*
      * Return the players currentMoney, currentReputation, currentNodeIndex
      */
-    public void traverse(Scanner scanner, Player player){
+    public void traverse(Player player){
         
-        //double currentMoney = player.getCurrentMoney();
-        //int currentReputation = player.getCurrentReputation();
-
         ArrayList<Node> orderNodes = this.getOrderNodes();
-        Node currentNode = orderNodes.get(0); // Set the default currentNode to the first of the startNode aka the first index
+        Node currentNode = player.getCurrentNode(); // default to StartNode to user
+        boolean userPause = false;
+        boolean isFirstIteration = true;
 
-        while(true){
+        while(!userPause){
             System.out.println("\n***************************");
             System.out.println("Current Mission: " + currentNode.getName()); 
             List<Choice> choices = getChoices(currentNode); 
 
+
+            if (isFirstIteration) {
+                isFirstIteration = false; // Skip the pause check in the first iteration
+            } else {
+                // Check if the player wants to pause the game
+                System.out.println("Enter `PAUSE` to end the game early and save your progress. If not press any key to proceed.");
+                scanner.nextLine();
+                String input1 = scanner.nextLine();
+
+                if (input1.equalsIgnoreCase("pause")) {
+                    System.out.println("\n Game paused. Progress saved");
+                    player.setCurrentNode(currentNode);
+                    System.out.println("Current Money: $" + player.getCurrentMoney());                 
+                    System.out.println("Current Reputation: " + player.getCurrentReputation()); 
+                    System.out.println("Current Mission: " + player.getCurrentNode().getName());  
+                    saveAndStoreProgress(player);
+
+                    break; // Exit the loop
+                }
+            }
+        
             // Break if end game
             if (choices.isEmpty()) { 
                 System.out.println("CONGRATS! YOU COMPLETED THE GAME"); 
+                saveAndStoreProgress(player);
                 break; 
             }
             
@@ -136,10 +177,24 @@ class GameGraph {
                     currentNode = nextNode; 
                     continue;
                 } else {
-                    while(true){
+                    while(!userPause){
                         System.out.println("\n You have not earned enough money or reputation to advance to " + nextNode.getName()); 
                         System.out.println("Minimum requirements $" + nextNode.getMinMoney() + ", Reputation: " + nextNode.getMinReputation());
-                        System.out.println("You need to complete side quests to unlock the next misson");     
+                        System.out.println("\n You need to complete side quests to unlock the next misson");     
+
+                        
+                        // Check if the player wants to pause the game
+                        System.out.println("Or enter `PAUSE` to end the game early and save your progress. If not, press any key to proceed.");
+                        scanner.nextLine();
+                        String input2= scanner.nextLine();
+                        if (input2.equalsIgnoreCase("pause")){
+                            System.out.println("Game paused. Progress saved");
+                            player.setCurrentNode(currentNode);
+                            userPause = true;
+                            saveAndStoreProgress(player);
+
+                            break;
+                        }
                         
                         // Keep asking users to Side Quest unless they want to resume their misisons (and if they are eligible to)
                         completeSideQuest(scanner, player); 
@@ -185,6 +240,19 @@ class GameGraph {
                             System.out.println("\n You have not earned enough money and reputation to resume at " + currentNode.getName()); 
                             System.out.println("Minimum requirements $" + currentNode.getMinMoney() + ", Reputation: " + currentNode.getMinReputation());
                             System.out.println("You need to complete side quests to increase your money and reputation.");  
+
+                            // Check if the player wants to pause the game
+                            System.out.println("Or enter `PAUSE` to end the game early and save your progress. If not, press any key to proceed.");
+                            scanner.nextLine();
+                            String input2= scanner.nextLine();
+                            if (input2.equalsIgnoreCase("pause")){
+                                System.out.println("Game paused. Progress saved");
+                                player.setCurrentNode(currentNode);
+                                userPause = true;
+                                saveAndStoreProgress(player);
+                                break;
+                            }
+
                             System.out.println("\n***************************");   
                             
                             // Keep asking users to Side Quest unless they want to resume their misisons (and if they are eligible to)
@@ -222,4 +290,101 @@ class GameGraph {
             }
             return currentNode;
         }
-}
+        
+    /**
+     * Method to resume the game from saved progress.
+     */
+        public Player resume(String playerName) {
+            String userFileName = playerName + "_save.txt";
+            File saveFile = new File(userFileName);
+        
+            if (saveFile.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
+                    System.out.println("\n Reading saved file: " + userFileName);
+        
+                    String nameLine = reader.readLine();
+                    String reputationLine = reader.readLine();
+                    String moneyLine = reader.readLine();
+                    String missionLine = reader.readLine();
+        
+                    // Parse the player's attributes
+                    String name = nameLine.split(":")[1].trim();
+                    int reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
+                    double money = Double.parseDouble(moneyLine.split(":")[1].trim());
+                    String nameCurrentNode = missionLine.replace("Last completed mission: ", "").trim();
+        
+                    // Search for the Node with the matching name
+                    for (Node node : orderNodes) {
+                        if (node.getName().equals(nameCurrentNode)) {
+                            Node currentNode = node;
+        
+                            // Create the Player object
+                            Player player = new Player(name, money, reputation, currentNode);
+        
+                            System.out.println("Player Name: " + player.getName());
+                            System.out.println("Player Reputation: " + player.getCurrentReputation());
+                            System.out.println("Player Money: $" + player.getCurrentMoney());
+                            System.out.println("Last Completed Mission: " + player.getCurrentNode().getName());
+                            System.out.println("Game resumed successfully.");
+        
+                            return player;
+                        }
+                    }
+        
+                    // If no matching Node is found
+                    System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
+                    return null;
+                } catch (IOException | NumberFormatException e) {
+                    System.err.println("Failed to resume the game: " + e.getMessage());
+                    return null; // Return null in case of an error
+                }
+            } else {
+                // If no saved game is found
+                System.out.println("No saved game found. Starting a new game.");
+                return null;
+            }
+        }
+        
+        public Player startGame() {
+            System.out.println("Type in 'start' or 'resume'.");
+            String response = scanner.nextLine().toUpperCase();
+            if (response.equals("RESUME")) {
+                System.out.println("Type in your last username");
+                String username = scanner.nextLine();
+    
+                // Check in existing file if there is anything saved. If not create a new user
+                Player player = resume(username);
+                return player;
+    
+            } else {
+                // If that create new player using default values
+                System.out.println("Type in your new username");
+                String username = scanner.nextLine();
+                Player player = new Player(username, orderNodes.get(0)); // Initializing the current Node to the start Node
+                players.add(player);
+    
+                System.out.println("Welcome to the game!");
+                return player;
+    
+            }
+        }
+
+        public void saveAndStoreProgress(Player player) {
+            String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
+    
+            // Create new file or overwrite existing files
+            try (BufferedWriter out = new BufferedWriter(new FileWriter(userFileName))) {
+                System.out.println("Saving game progress for" + player.getName() + "...");
+                out.write("Player name:" + player.getName() + "\n");
+                out.write("Reputation:" + player.getCurrentReputation() + "\n");
+                out.write("Money:" + player.getCurrentMoney() + "\n");
+                out.write("Last completed mission: " + player.getCurrentNode().getName() + "\n");
+                
+                out.flush();
+                System.out.println("Game progress saved successfully.");
+            } catch (IOException e) {
+                System.err.println("Failed to save the game: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }

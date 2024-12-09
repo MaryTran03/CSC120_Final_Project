@@ -1,0 +1,4 @@
+Player name:trang
+Reputation:0
+Money:300.0
+Last completed mission: The Warehouse Raid Part 2

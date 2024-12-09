@@ -1,8 +1,4 @@
-// import java.util.HashMap;
 import java.util.Hashtable;
-// import java.util.Map;
-// import java.util.Random;
-// import java.util.Scanner;
 
 class Node {
     private Hashtable<String, String> node;
