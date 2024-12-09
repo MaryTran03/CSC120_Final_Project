@@ -1,12 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
-//import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Game {
-   // private static final String SAVE_FILE = "./save_game.txt";
-    private ArrayList<Player> users;
-    //private Hashtable<String, Boolean> progress;
+    private ArrayList<Player> players;
     private ArrayList<MissionPart> missions;
 
     private Player player;
@@ -14,16 +11,16 @@ public class Game {
 
     // Constructor
     public Game(Player player) {
-        this.player = player;
-        this.users = new ArrayList<>();
+        //this.player = player;
+        this.players = new ArrayList<>();
        // this.progress = new Hashtable<>();
         this.userInput = new Scanner(System.in);
         this.missions = new ArrayList<>();
     }
 
-    public Player getPlayer() {
-        return player;
-    }
+    // public Player getPlayer() {
+    //     return player;
+    // }
 
     /**
      * Method to start the game.
@@ -34,7 +31,7 @@ public class Game {
         if (response.equals("RESUME")) {
             resume(player.getName());
         } else {
-            users.add(player);
+            players.add(player);
             System.out.println("Welcome to the game!");
         }
         return true;
@@ -45,24 +42,12 @@ public class Game {
     /**
      * Method to add a user to the game.
      */
-    public void addUser(Player user) {
-        if (user != null) {
-            this.users.add(user);
-            System.out.println("User added: " + user.getName());
+    public void addUser(Player player) {
+        if (player != null) {
+            this.players.add(player);
+            System.out.println("User added: " + player.getName());
         } else {
             System.out.println("Cannot add a null user.");
-        }
-    }
-
-    /**
-     * Method to check if the player wins.
-     */
-    public void checkWinStatus() {
-        if (player.getReputation() >= 40 || player.getMoney() >= 800) {
-            System.out.println(player.getName() + " wins the game!");
-            endGame();
-        } else {
-            System.out.println("Not enough reputation points or money to win.");
         }
     }
 
@@ -71,6 +56,8 @@ public class Game {
      */
     public void saveAndStoreProgress() {
         String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
+
+        // Create new file or overwrite existing files
         try (BufferedWriter out = new BufferedWriter(new FileWriter(userFileName))) {
             System.out.println("Saving game progress for" + player.getName() + "...");
             out.write("Player name:" + player.getName() + "\n");
@@ -79,10 +66,10 @@ public class Game {
             if(missions != null && !missions.isEmpty()){
                 out.write("Last completed Mission:" + missions.get(missions.size()-1).getName() + "\n");
             }else{
-                out.write("Last completed Mission:None\n");
+                out.write("Last completed Mission: None\n");
             }
             out.flush();
-            if(!users.contains(player)){
+            if(!players.contains(player)){
                 addUser(player);
 
             }
@@ -122,7 +109,7 @@ public class Game {
                 System.out.println("Player Money: " + player.getMoney());
                 System.out.println("Last Completed Mission: " + lastMission);
                 System.out.println("Game resumed successfully.");
-                checkWinStatus();
+                //checkWinStatus();
             } catch (IOException | NumberFormatException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
