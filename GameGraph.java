@@ -8,6 +8,9 @@ class GameGraph {
     private ArrayList<Node> orderNodes;
     private Scanner scanner;
 
+    /*
+     * Initialize the game
+     */
     public GameGraph() {
         this.scanner = new Scanner(System.in);
         graph = new HashMap<>();
@@ -16,12 +19,23 @@ class GameGraph {
         this.players = new ArrayList<Player>();
     }
 
+    /*
+     * Add SideQuest to the list of Side Quests
+     */
     public void addSideQuest(SideQuest sideQuest) { this.sideQuests.add(sideQuest);}
 
+    
+    /*
+     * Add Node to the map
+     */
     public void addNode(Node node) { 
         graph.putIfAbsent(node, new ArrayList<>());
         orderNodes.add(node);}
 
+    
+    /*
+     * Add edges (List<Choice>)
+     */    
     public void addEdge(Node node1, Choice choice) {
         if (graph.containsKey(node1)) {
             graph.get(node1).add(choice);}
@@ -33,13 +47,34 @@ class GameGraph {
     public ArrayList<Player> getPlayers() { return this.players;    }
 
     // Describe the game
-    public void describeGame(){
-        System.out.println("WELCOME TO THE GAME");
+
+    public void describeGame() {
+        System.out.println("\n***************************");
+        System.out.println("\nGet ready to dive into an adrenaline-pumping adventure! You've just moved to a new neighborhood and, in a twist of fate, found yourself entangled with a notorious criminal gang.");
+        System.out.println("\nUnder the command of the ruthless yet cunning Vinnie, you're tasked with completing three high-stakes missions.. But beware, each mission demands a specific amount of money and reputation points to unlock. Don't fret if you fall short; you can always tackle side quests to boost your stats.");
+        System.out.println("\nRemember, you can pause the game at any moment to save your progress and jump back in whenever you're ready. Prove your worth to Vinnie! The streets await your rise to power.");
+        
+        System.out.println("\nWin the game: Finish all 3 missions.\n");
+    
+        System.out.println("Mission 1: The Car Heist");
+        System.out.println("Objective: Prove yourself to Vinnie by stealing a high-end car.");
+        System.out.println("Requirements: $200, 0 reputation points\n");
+    
+        System.out.println("Mission 2: The Warehouse Raid");
+        System.out.println("Objective: Infiltrate the Iron Hounds’ warehouse and steal valuable goods.");
+        System.out.println("Requirements: $200, 10 reputation points\n");
+    
+        System.out.println("Mission 3: The Final Heist");
+        System.out.println("Objective: Pull off a bank heist with Vinnie’s crew as the getaway driver.");
+        System.out.println("Requirements: $200, 30 reputation points\n");
+    
+        System.out.println("Good luck, and may you succeed in completing all the missions!");
     }
+    
 
     // End game 
     public void endGame(){
-        System.out.println("Thank you for player the game!");
+        System.out.println("\n Thank you for playing the game!");
         scanner.close();
     }
 
@@ -124,21 +159,24 @@ class GameGraph {
         while(!userPause){
             System.out.println("\n***************************");
             System.out.println("Current Mission: " + currentNode.getName()); 
+            System.out.println(currentNode); 
+
             List<Choice> choices = getChoices(currentNode); 
 
 
             if (isFirstIteration) {
                 isFirstIteration = false; // Skip the pause check in the first iteration
             } else {
+
                 // Check if the player wants to pause the game
-                System.out.println("Enter `PAUSE` to end the game early and save your progress. If not press any key to proceed.");
+                System.out.println("\n Enter `PAUSE` to end the game early and save your progress. If not press any key to proceed.");
                 scanner.nextLine();
                 String input1 = scanner.nextLine();
 
                 if (input1.equalsIgnoreCase("pause")) {
                     System.out.println("\n Game paused. Progress saved");
                     player.setCurrentNode(currentNode);
-                    System.out.println("Current Money: $" + player.getCurrentMoney());                 
+                    System.out.println("\n Current Money: $" + player.getCurrentMoney());                 
                     System.out.println("Current Reputation: " + player.getCurrentReputation()); 
                     System.out.println("Current Mission: " + player.getCurrentNode().getName());  
                     saveAndStoreProgress(player);
@@ -197,6 +235,7 @@ class GameGraph {
                         }
                         
                         // Keep asking users to Side Quest unless they want to resume their misisons (and if they are eligible to)
+                        System.out.println("\n***************************");
                         completeSideQuest(scanner, player); 
 
                         // After complete SideQuest check their current status. If they are eligible ask if they want to continue to do SideQuests
@@ -239,7 +278,7 @@ class GameGraph {
                         while(true){
                             System.out.println("\n You have not earned enough money and reputation to resume at " + currentNode.getName()); 
                             System.out.println("Minimum requirements $" + currentNode.getMinMoney() + ", Reputation: " + currentNode.getMinReputation());
-                            System.out.println("You need to complete side quests to increase your money and reputation.");  
+                            System.out.println("\n You need to complete side quests to increase your money and reputation.");  
 
                             // Check if the player wants to pause the game
                             System.out.println("Or enter `PAUSE` to end the game early and save your progress. If not, press any key to proceed.");
@@ -317,16 +356,10 @@ class GameGraph {
                     for (Node node : orderNodes) {
                         if (node.getName().equals(nameCurrentNode)) {
                             Node currentNode = node;
-        
                             // Create the Player object
-                            Player player = new Player(name, money, reputation, currentNode);
-        
-                            System.out.println("Player Name: " + player.getName());
-                            System.out.println("Player Reputation: " + player.getCurrentReputation());
-                            System.out.println("Player Money: $" + player.getCurrentMoney());
-                            System.out.println("Last Completed Mission: " + player.getCurrentNode().getName());
-                            System.out.println("Game resumed successfully.");
-        
+                            Player player = new Player(name, money, reputation, currentNode); 
+                            System.out.println("Game resumed");
+       
                             return player;
                         }
                     }
@@ -349,7 +382,7 @@ class GameGraph {
             System.out.println("Type in 'start' or 'resume'.");
             String response = scanner.nextLine().toUpperCase();
             if (response.equals("RESUME")) {
-                System.out.println("Type in your last username");
+                System.out.println("\n Type in your last username");
                 String username = scanner.nextLine();
     
                 // Check in existing file if there is anything saved. If not create a new user
@@ -358,12 +391,15 @@ class GameGraph {
     
             } else {
                 // If that create new player using default values
-                System.out.println("Type in your new username");
+                System.out.println("\n Type in your new username");
                 String username = scanner.nextLine();
                 Player player = new Player(username, orderNodes.get(0)); // Initializing the current Node to the start Node
                 players.add(player);
     
-                System.out.println("Welcome to the game!");
+                System.out.println("Starting Reputation: " + player.getCurrentReputation());
+                System.out.println("Starting Money: $" + player.getCurrentMoney());
+                System.out.println("Starting Mission" + player.getCurrentNode().getName());
+
                 return player;
     
             }
@@ -374,14 +410,19 @@ class GameGraph {
     
             // Create new file or overwrite existing files
             try (BufferedWriter out = new BufferedWriter(new FileWriter(userFileName))) {
-                System.out.println("Saving game progress for" + player.getName() + "...");
+                System.out.println("Saving game progress for " + player.getName() + "...");
                 out.write("Player name:" + player.getName() + "\n");
                 out.write("Reputation:" + player.getCurrentReputation() + "\n");
                 out.write("Money:" + player.getCurrentMoney() + "\n");
                 out.write("Last completed mission: " + player.getCurrentNode().getName() + "\n");
-                
+
+                // Printing out the player's progress
+                System.out.println("Player Reputation: " + player.getCurrentReputation());
+                System.out.println("Player Money: $" + player.getCurrentMoney());
+                System.out.println("Last Completed Mission: " + player.getCurrentNode().getName());
+
                 out.flush();
-                System.out.println("Game progress saved successfully.");
+                System.out.println("\n Game progress saved successfully.");
             } catch (IOException e) {
                 System.err.println("Failed to save the game: " + e.getMessage());
                 e.printStackTrace();

@@ -54,7 +54,7 @@ public class SideQuest {
         // Updating the Player Current Money
         player.setCurrentMoney(updatedMoney);
 
-        System.out.println("Current Money:" + player.getCurrentMoney());
+        System.out.println("Current Money: $" + player.getCurrentMoney());
         System.out.println("\n***************************");
 
     }

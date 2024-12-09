@@ -101,6 +101,7 @@ public class Main {
         // Run the game
 
         Player player = game.startGame();
+        game.describeGame();
         game.traverse(player);
         game.endGame();
         

@@ -1,30 +1,26 @@
-import java.util.Hashtable;
-
 class Node {
-    private Hashtable<String, String> node;
     private String name;
     private double minMoney;
     private int minReputation; 
-
-    // Method to get the description by key 
-    public String getDescription(String key) { return this.node.get(key); }
+    private String description;
 
     // Constructor
     public Node(String description, String key, String name, int minMoney, int minReputation) {
-        this.node = new Hashtable<>();
-        this.node.put(key, description);
         this.name = name;
         this.minMoney = minMoney;
         this.minReputation = minReputation;
+        this.description = description;
     }
 
     // Getters
     public String getName() { return this.name; }
     public double getMinMoney() { return this.minMoney; }
     public int getMinReputation() { return this.minReputation; }
+    public String getDescription() { return this.description; }
+
 
     @Override
     public String toString(){
-        return this.name + " : " + this.getDescription(node.keys().nextElement());
+        return this.getDescription();
     }
 }    
