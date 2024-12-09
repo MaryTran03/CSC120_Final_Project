@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
+        // Setting up the game
         GameGraph game = new GameGraph();
 
         // Create the nodes
@@ -26,7 +27,6 @@ public class Main {
         game.addNode(mission3_1);
         game.addNode(mission3_2);
         game.addNode(endNode);
-
 
         // Add choices
         Choice choice1_1_cheap = new Choice("Steal the cheaper car", 
@@ -98,8 +98,8 @@ public class Main {
         game.addSideQuest(burgerKing);
         game.addSideQuest(badDebt);
 
-        // Run the graph
-        //game.resume("trang");
+        // Run the game
+
         Player player = game.startGame();
         game.traverse(player);
         game.endGame();
