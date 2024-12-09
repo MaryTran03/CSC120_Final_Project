@@ -7,7 +7,7 @@ import java.util.Hashtable;
 class Node {
     private Hashtable<String, String> node;
     private String name;
-    private int minMoney;
+    private double minMoney;
     private int minReputation; 
 
     // Method to get the description by key 
@@ -24,7 +24,7 @@ class Node {
 
     // Getters
     public String getName() { return this.name; }
-    public int getMinMoney() { return this.minMoney; }
+    public double getMinMoney() { return this.minMoney; }
     public int getMinReputation() { return this.minReputation; }
 
     @Override
