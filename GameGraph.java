@@ -48,10 +48,10 @@ class GameGraph {
      * @return Choices in List
      */
     public List<Choice> getChoices(Node node) { return graph.getOrDefault(node, new ArrayList<>());    }
-   /**
-    * Scanner accessor
-    * @return scanner
-    */
+    /**
+     * Scanner accessor
+     * @return scanner
+     */
     public Scanner getScanner() { return this.scanner;    }
     /**
      * Arraylist of side quests
@@ -483,10 +483,10 @@ class GameGraph {
         }
 
     }
-        /**
-         * Method saves and stores progress
-         * @param player
-         */
+    /**
+     * Method saves and stores progress
+     * @param player
+     */
     public void saveAndStoreProgress(Player player) {
             String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
     
