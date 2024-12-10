@@ -302,10 +302,10 @@ class GameGraph {
                             if (input == 2) { // Choosing 2 means to proceed with the next mission. 
                                 currentNode = nextNode;
                                 break;
+                            }
                         }
-                    }
-                }   continue;
-            }
+                    }   continue;
+                }
         } 
 
             // If not successful
@@ -358,21 +358,21 @@ class GameGraph {
                                 int input = getUserInput(scanner, 1, 2);
                                 if (input == 2) { // Choosing 2 means to resume the mission. 
                                     break;
+                                }
                             }
-                        }
-                    } 
+                        } 
                     continue;
-                }
-            }
+                    }
+                }   
         
-            // Conditions to end the game
-            if (currentNode == orderNodes.get(orderNodes.size() - 1)){
-                System.err.println("CONGRATS! YOU COMPLETED THE GAME");
-                break;
+                // Conditions to end the game
+                if (currentNode == orderNodes.get(orderNodes.size() - 1)){
+                    System.err.println("CONGRATS! YOU COMPLETED THE GAME");
+                    break;
+                }
             }
         }
     }
-}
     /**
      * Updates Node
      * @param currentNode
