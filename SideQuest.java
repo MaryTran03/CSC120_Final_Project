@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * SideQuest class
+ */
 public class SideQuest {
     private ArrayList<Choice> choices;
     private String name;
@@ -9,7 +11,11 @@ public class SideQuest {
     private double hourlyWage; // For simple quests
     private boolean isSimpleQuest; // Flag to distinguish between simple and complex quests
 
-    // Constructor for complex quests
+    /**
+     * Constructor for complex quests
+     * @param name
+     * @param description
+     */
     public SideQuest(String name, String description) {
         this.name = name;
         this.description = description;
@@ -17,27 +23,63 @@ public class SideQuest {
         this.isSimpleQuest = false;
     }
 
-    // Constructor for simple quests
+   /**
+    * Constructor for simple quests
+    * @param name
+    * @param description
+    * @param hourlyWage
+    */
     public SideQuest(String name, String description, double hourlyWage) {
         this.name = name;
         this.description = description;
         this.hourlyWage = hourlyWage;
         this.isSimpleQuest = true;
     }
-
+    /**
+     * Checks for simple request
+     * @return true/false
+     */
     public Boolean getIsSimpleQuest() {return this.isSimpleQuest;    }
+    /**
+     * Name accessor
+     * @return name
+     */
     public String getName() {return this.name;    }
+    /**
+     * Hourly wage accessor for burger king side quest
+     * @return hourlyWage 
+     */
     public double getHourlyWage() {return this.hourlyWage;    }
+    /**
+     * Sidequest description
+     * @return description of side quest
+     */
     public String getDescription() {return description;}
+    /**
+     * Accessor for choices
+     * @return choices
+     */
     public ArrayList<Choice> getChoices() {return choices;}
-
+    /**
+     * Method used to add choice
+     * @param name
+     * @param description
+     * @param moneyReward
+     * @param reputationReward
+     * @param successProbability
+     */
     public void addChoice(String name, String description,  int moneyReward, int reputationReward, double successProbability) {
         if (!isSimpleQuest) {
             choices.add(new Choice(name, description, moneyReward, reputationReward, successProbability));
         }
     }
 
-        // Handle simple quests
+    /**
+     * Handle simple quests
+     * @param scanner
+     * @param hourlyWage
+     * @param player
+     */
     public static void completeSimpleQuest(Scanner scanner, double hourlyWage, Player player) {
         // Get the player double money
         double currentMoney = player.getCurrentMoney();
@@ -58,8 +100,12 @@ public class SideQuest {
         System.out.println("\n***************************");
 
     }
-
-    // Handle complex quests
+    /**
+     * Handle complex quests
+     * @param scanner
+     * @param choices
+     * @param player
+     */
     public static void completeComplexQuest(Scanner scanner, ArrayList<Choice> choices, Player player) {
         // Get the Players money and reputation
         int currentReputation = player.getCurrentReputation();
@@ -96,7 +142,13 @@ public class SideQuest {
         System.out.println("\n***************************");
 
     }
-
+    /**
+     * Method to validate input
+     * @param scanner
+     * @param min
+     * @param max
+     * @return integer input
+     */
     public static int validateInput(Scanner scanner, int min, int max) {
         int input = 0;
 

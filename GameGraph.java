@@ -1,5 +1,8 @@
 import java.util.*;
 import java.io.*;
+/**
+ * Game Graph class by Trang & Ada
+ */
 class GameGraph {
     private ArrayList<Player> players;
     private Map<Node, List<Choice>> graph;
