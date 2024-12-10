@@ -379,115 +379,115 @@ class GameGraph {
      * @return updated Node
      */  
     private Node updateNode(Node currentNode){
-            int currentIndex = this.getOrderNodes().indexOf(currentNode);
-            // If the currentCode is not divided by 2, reset the currentNode to currentNode - 1
-            if (this.getOrderNodes().indexOf(currentNode) % 2 == 1){
-                currentIndex -= 1;
-                currentNode = this.getOrderNodes(). get(currentIndex);
-            }
-            return currentNode;
+        int currentIndex = this.getOrderNodes().indexOf(currentNode);
+        // If the currentCode is not divided by 2, reset the currentNode to currentNode - 1
+        if (this.getOrderNodes().indexOf(currentNode) % 2 == 1){
+            currentIndex -= 1;
+            currentNode = this.getOrderNodes(). get(currentIndex);
         }
+        return currentNode;
+    }
         
     /**
      * Method to resume the game from saved progress.
      * @param playerName
      * @return Player
      */
-        public Player resume(String playerName) {
-            String userFileName = playerName + "_save.txt";
-            File saveFile = new File(userFileName);
+    public Player resume(String playerName) {
+        String userFileName = playerName + "_save.txt";
+        File saveFile = new File(userFileName);
         
-            if (saveFile.exists()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
-                    System.out.println("\nReading saved file: " + userFileName);
+        if (saveFile.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
+                System.out.println("\nReading saved file: " + userFileName);
         
-                    String nameLine = reader.readLine();
-                    String reputationLine = reader.readLine();
-                    String moneyLine = reader.readLine();
-                    String missionLine = reader.readLine();
+                String nameLine = reader.readLine();
+                String reputationLine = reader.readLine();
+                String moneyLine = reader.readLine();
+                String missionLine = reader.readLine();
         
-                    // Parse the player's attributes
-                    String name = nameLine.split(":")[1].trim();
-                    int reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
-                    double money = Double.parseDouble(moneyLine.split(":")[1].trim());
-                    String nameCurrentNode = missionLine.replace("Last completed mission: ", "").trim();
+                // Parse the player's attributes
+                String name = nameLine.split(":")[1].trim();
+                int reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
+                double money = Double.parseDouble(moneyLine.split(":")[1].trim());
+                String nameCurrentNode = missionLine.replace("Last completed mission: ", "").trim();
         
-                    // Search for the Node with the matching name
-                    for (Node node : orderNodes) {
-                        if (node.getName().equals(nameCurrentNode)) {
-                            Node currentNode = node;
-                            // Create the Player object
-                            Player player = new Player(name, money, reputation, currentNode); 
-                            System.out.println("Game resumed.");
+                // Search for the Node with the matching name
+                for (Node node : orderNodes) {
+                    if (node.getName().equals(nameCurrentNode)) {
+                        Node currentNode = node;
+                        // Create the Player object
+                        Player player = new Player(name, money, reputation, currentNode); 
+                        System.out.println("Game resumed.");
        
-                            return player;
-                        }
+                        return player;
                     }
-        
-                    // If no matching Node is found
-                    System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
-                    return null;
-                } catch (IOException | NumberFormatException e) {
-                    System.err.println("Failed to resume the game: " + e.getMessage());
-                    return null; // Return null in case of an error
                 }
-            } else {
-                // If no saved game is found
-                System.out.println("No saved game found. Starting a new game.");
+        
+                // If no matching Node is found
+                System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
                 return null;
+            } catch (IOException | NumberFormatException e) {
+                System.err.println("Failed to resume the game: " + e.getMessage());
+                return null; // Return null in case of an error
             }
+        } else {
+            // If no saved game is found
+            System.out.println("No saved game found. Starting a new game.");
+            return null;
         }
-        /**
-         * Starts game for player
-         * @return player
-         */
-        public Player startGame() {
-            System.out.println("Choose 1 to start a new game or 2 to resume where you left");
-            int response = getUserInput(scanner, 1, 2);
+    }
+    /**
+     * Starts game for player
+     * @return player
+     */
+    public Player startGame() {
+        System.out.println("Choose 1 to start a new game or 2 to resume where you left");
+        int response = getUserInput(scanner, 1, 2);
 
-            //String response = scanner.nextLine().toUpperCase();
-            if (response == 2) {
-                System.out.println("\nType in your last username");
-                scanner.nextLine();
-                String username = scanner.nextLine();
+        //String response = scanner.nextLine().toUpperCase();
+        if (response == 2) {
+            System.out.println("\nType in your last username");
+            scanner.nextLine();
+            String username = scanner.nextLine();
     
-                // Check in existing file if there is anything saved. If not create a new user
-                Player player = resume(username);
+            // Check in existing file if there is anything saved. If not create a new user
+            Player player = resume(username);
 
-                System.out.println("\nStarting Reputation: " + player.getCurrentReputation());
-                System.out.println("Starting Money: $" + player.getCurrentMoney());
-                System.out.println("Starting Mission: " + player.getCurrentNode().getName());
+            System.out.println("\nStarting Reputation: " + player.getCurrentReputation());
+            System.out.println("Starting Money: $" + player.getCurrentMoney());
+            System.out.println("Starting Mission: " + player.getCurrentNode().getName());
     
-                System.out.println("\nPress any keys to continue");
-                scanner.nextLine();
+            System.out.println("\nPress any keys to continue");
+            scanner.nextLine();
                 
-                return player;
+            return player;
     
-            } else {
-                // If that create new player using default values
-                System.out.println("\nType in your new username");
-                scanner.nextLine();
-                String username = scanner.nextLine();
-                Player player = new Player(username, orderNodes.get(0)); // Initializing the current Node to the start Node
-                players.add(player);
+        } else {
+            // If that create new player using default values
+            System.out.println("\nType in your new username");
+            scanner.nextLine();
+            String username = scanner.nextLine();
+            Player player = new Player(username, orderNodes.get(0)); // Initializing the current Node to the start Node
+            players.add(player);
 
-                System.out.println("\nStarting Reputation: " + player.getCurrentReputation());
-                System.out.println("Starting Money: $" + player.getCurrentMoney());
-                System.out.println("Starting Mission: " + player.getCurrentNode().getName());
+            System.out.println("\nStarting Reputation: " + player.getCurrentReputation());
+            System.out.println("Starting Money: $" + player.getCurrentMoney());
+            System.out.println("Starting Mission: " + player.getCurrentNode().getName());
     
                     
-                System.out.println("\nPress any keys to continue");
-                scanner.nextLine();
+            System.out.println("\nPress any keys to continue");
+            scanner.nextLine();
 
-                return player;
-            }
-
+            return player;
         }
+
+    }
         /**
          * Method saves and stores progress
          * @param player
          */
-        public void saveAndStoreProgress(Player player) {
+    public void saveAndStoreProgress(Player player) {
             String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
     
             // Create new file or overwrite existing files
@@ -506,9 +506,9 @@ class GameGraph {
 
                 out.flush();
                 System.out.println("\nGame progress saved successfully.");
-            } catch (IOException e) {
+        } catch (IOException e) {
                 System.err.println("Failed to save the game: " + e.getMessage());
                 e.printStackTrace();
-            }
         }
     }
+}
