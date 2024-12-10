@@ -5,7 +5,7 @@ class Node {
     private String description;
 
     // Constructor
-    public Node(String description, String key, String name, int minMoney, int minReputation) {
+    public Node(String description, String name, int minMoney, int minReputation) {
         this.name = name;
         this.minMoney = minMoney;
         this.minReputation = minReputation;

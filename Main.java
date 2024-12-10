@@ -4,19 +4,19 @@ public class Main {
         GameGraph game = new GameGraph();
 
         // Create the nodes
-        Node mission1_1 = new Node("Choose the car to steal","mission1_1" , 
+        Node mission1_1 = new Node("Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot.", 
         "Car Heist Part 1", 200, 0); 
-        Node mission1_2 = new Node("Choose the escape route","mission1_2" , 
+        Node mission1_2 = new Node("However, you have some free time before delivering it to Vinnie. It is a beautiful day in Florida ..." , 
         "Car Heist Part 2", 200, 0); 
-        Node mission2_1 = new Node("Choose the stash","mission2_1" , 
+        Node mission2_1 = new Node("After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics.", 
         "The Warehouse Raid Part 1", 200, 10); 
-        Node mission2_2 = new Node("Choose the escape route","mission2_2" , 
+        Node mission2_2 = new Node("The warehouse has guards, but you are strong and run (kinda) fast!" , 
         "The Warehouse Raid Part 2", 200, 10); 
-        Node mission3_1 = new Node("Escape the police","mission3_1" , 
+        Node mission3_1 = new Node("After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. \n Your role is crucial as the getaway driver. The police is behind you but your car is equipped with these tear gas and guns to fight back", 
         "The Final Heist Part 1", 200, 30); 
-        Node mission3_2 = new Node("Split the loot","mission3_2" , 
+        Node mission3_2 = new Node("You avoided the police and escaped with $5 million in cash ... The crew is wayyyy behind you" , 
         "The final Heist Part 2", 200, 30); 
-        Node endNode = new Node("Congrats! You completed all missions!", "end", 
+        Node endNode = new Node("Congrats! You completed all missions!", 
         "The End", 0, 0);
 
         // Adding mission parts as nodes
@@ -30,10 +30,10 @@ public class Main {
 
         // Add choices
         Choice choice1_1_cheap = new Choice("Steal the cheaper car", 
-            "Lower rewards from Vinnie but with 0% probability of being caught by the guard.", 
+            "Lower rewards from Vinnie but with lower probability of being caught by the guard.", 
             100, 10, 1, mission1_2); // 100% chance
         Choice choice1_1_luxury = new Choice("Steal the luxury car", 
-            "More rewards from Vinnie but with 30% probability being caught by the guard.", 
+            "More rewards from Vinnie but with higher probability being caught by the guard.", 
             300, 15, 0.6, mission1_2); // 70% chance of success
         Choice choice1_2_return = new Choice("Return the car to Vinnie", 
             "Lower risk of being caught by the police but no fun ... ",
@@ -101,9 +101,28 @@ public class Main {
         // Run the game
 
         Player player = game.startGame();
-        game.describeGame();
-        game.traverse(player);
-        game.endGame();
-        
+        if (player.getCurrentNode().getName() == "The End"){
+            System.out.println("You already completed the game!");
+            System.out.println("Do you want to start again? You will lose your current money and reputation points. \n1: Yes\n2: No");
+            int input = SideQuest.validateInput(game.getScanner(),1,2);
+            if (input == 1){
+                // Resetting progress
+                player.setCurrentMoney(200);
+                player.setCurrentReputation(0);
+                player.setCurrentNode(game.getOrderNodes().get(0));
+                
+                // Resume
+                game.describeGame();
+                game.traverse(player);
+                game.endGame();        
+            } else {
+                System.out.println("Come back if you want to replay the game");
+
+            }
+        } else {
+            game.describeGame();
+            game.traverse(player);
+            game.endGame();    
+        }    
     }
 }

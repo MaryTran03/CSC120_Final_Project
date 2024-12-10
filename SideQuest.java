@@ -42,11 +42,11 @@ public class SideQuest {
         // Get the player double money
         double currentMoney = player.getCurrentMoney();
 
-        System.out.print("\n How many hours do you want to work? ");
+        System.out.print("\nHow many hours do you want to work? ");
         double hoursWorked = validateInput(scanner, 1, 24); // Allow up to 24 hours
         double earnings = hoursWorked * hourlyWage;
 
-        System.out.println("\n You worked for " + hoursWorked + " hours and earned $" + earnings + ".");
+        System.out.println("\nYou worked for " + hoursWorked + " hours and earned $" + earnings + ".");
         System.out.println("Side quest completed successfully!");
 
         double updatedMoney = currentMoney + earnings;
@@ -65,7 +65,7 @@ public class SideQuest {
         int currentReputation = player.getCurrentReputation();
         double currentMoney = player.getCurrentMoney();
 
-        System.out.println("\n Your Choices:");
+        System.out.println("\nYour Choices:");
         for (int i = 0; i < choices.size(); i++) {
             Choice co = choices.get(i);
             System.out.println((i + 1) + ". " + co.getName() + " - " + co.getDescription());
@@ -81,9 +81,9 @@ public class SideQuest {
         if (rand.nextDouble() <= selectedChoice.getSuccessProbability()) {
             currentMoney += selectedChoice.getMoneyReward();
             currentReputation += selectedChoice.getReputationReward();
-            System.out.println("\n Success!");
+            System.out.println("\nSuccess!");
         } else {
-            System.out.println("\n Got caught! Again??? Lose $50 and 5 reputation points");
+            System.out.println("\nGot caught! Again??? Lose $50 and 5 reputation points");
             currentMoney -= 50;
             currentReputation -= 5;
         }
@@ -97,12 +97,12 @@ public class SideQuest {
 
     }
 
-    private static int validateInput(Scanner scanner, int min, int max) {
+    public static int validateInput(Scanner scanner, int min, int max) {
         int input = 0;
 
         // Validate input
         while (true) {
-            System.out.print("\n Enter your choice: ");
+            System.out.print("\nEnter your choice: ");
             if (!scanner.hasNextInt()) { // Check if input is a number
                 System.out.println("Invalid input. Please enter a number between " + min + " and " + max + ".");
                 scanner.next(); // Clear invalid input

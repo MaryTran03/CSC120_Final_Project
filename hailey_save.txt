@@ -1,0 +1,4 @@
+Player name:hailey
+Reputation:20
+Money:300.0
+Last completed mission: The Warehouse Raid Part 1

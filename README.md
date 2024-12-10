@@ -4,7 +4,7 @@ Win the game: Finish all 3 missions. There are two mission parts within a missio
 
 ## Mission 1: The Car Heist
 Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
-Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, the vehicle is parked near security guards, requiring you to approach quietly and hotwire it. Vinnie 
+Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, you have some free time before delivering it to Vinnie. It is a beautiful day in Florida ...
 
 ### Requirements: 
 $200, 0 reputation point
@@ -26,7 +26,7 @@ $200, 0 reputation point
 
 ## Mission 2: The Warehouse Raid
 Objective: Infiltrate the Iron Hounds’ warehouse and steal valuable goods for Vinnie. Need 10 reputation points to unlock
-Description: After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, so you'll need to choose your approach carefully.
+Description: After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, but you are strong and run (kinda) fast!
 
 ### Requirements: 
 $200, 10 reputation point
