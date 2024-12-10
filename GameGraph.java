@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-
 class GameGraph {
     private ArrayList<Player> players;
     private Map<Node, List<Choice>> graph;
@@ -40,15 +39,36 @@ class GameGraph {
         if (graph.containsKey(node1)) {
             graph.get(node1).add(choice);}
     }
-
+    /**
+     * Accessor for choices
+     * @param node
+     * @return Choices in List
+     */
     public List<Choice> getChoices(Node node) { return graph.getOrDefault(node, new ArrayList<>());    }
+   /**
+    * Scanner accessor
+    * @return scanner
+    */
     public Scanner getScanner() { return this.scanner;    }
+    /**
+     * Arraylist of side quests
+     * @return side quest arraylist
+     */
     public ArrayList<SideQuest> getSideQuests() { return this.sideQuests;    }
+    /**
+     * Accessor for nodes
+     * @return arraylist of nodes
+     */
     public ArrayList<Node> getOrderNodes() { return this.orderNodes;    }
+    /**
+     * Accessor for players
+     * @return arraylist of players
+     */
     public ArrayList<Player> getPlayers() { return this.players;    }
 
-    // Describe the game
-
+    /**
+     * Game Description
+     */
     public void describeGame() {
         System.out.println("\n***************************");
         System.out.println("\nYou've just moved to a new neighborhood and, in a twist of fate, found yourself entangled with a notorious criminal gang.");
@@ -76,12 +96,17 @@ class GameGraph {
     }
     
 
-    // End game 
+    /**
+     * End game method
+     */
     public void endGame(){
         System.out.println("\nThank you for playing the game!");
         scanner.close();
     }
-
+    /**
+     * Method displays choices
+     * @param choices
+     */
     public void displayChoices(List<Choice> choices) {
         System.out.println("\nYour Choices:");
 
@@ -91,7 +116,10 @@ class GameGraph {
             System.out.println((i + 1) + ". " + co.getName() + " - " + co.getDescription());
             }
     }
-
+    /**
+     * Method allows player to show side quests
+     * @param sideQuests
+     */
     public void displaySideQuests(List<SideQuest> sideQuests) {
         System.out.println("\nYour Choices for SideQuests:");
         // Loop through the list of choices and show the options accordingly. The 1st option corresponds with 1
@@ -100,7 +128,11 @@ class GameGraph {
             System.out.println((a + 1) + ". " + sq.getName() + " - " + sq.getDescription());
             }
     }
-
+    /**
+     * Method to allow player to complete side quests
+     * @param scanner
+     * @param player
+     */
     private void completeSideQuest(Scanner scanner, Player player) {
         displaySideQuests(sideQuests);
         int userInput = getUserInput(scanner, 1, getSideQuests().size());
@@ -115,7 +147,13 @@ class GameGraph {
             SideQuest.completeComplexQuest(scanner, selectedSideQuest.getChoices(), player);
         }
     }
-    
+    /**
+     * Method to allow numerical input of choices
+     * @param scanner
+     * @param min
+     * @param max
+     * @return int input
+     */
     private int getUserInput(Scanner scanner, int min, int max) {
         int input = 0;
 
@@ -135,7 +173,11 @@ class GameGraph {
                 System.out.println("Invalid choice. Please select a number between " + min + " and " + max + ".");}}
         return input; // Return validated input
     }
-
+    /**
+     * Checks if missions/side quests are successful based on probability of success
+     * @param probability
+     * @return success of mission
+     */
     private boolean isSuccessful(double probability) { 
         Random rand = new Random(); 
         return rand.nextDouble(1) <= probability; 
@@ -144,14 +186,22 @@ class GameGraph {
     /*
      * Return the player
      */
-    
-
+    /**
+     * Method checks accessibility of Node
+     * @param node
+     * @param player
+     * @return if Node is accessible
+     */
     private boolean canAccessNode(Node node, Player player) { 
         return player.getCurrentMoney() >= node.getMinMoney() && player.getCurrentReputation() >= node.getMinReputation(); 
     }
 
     /*
      * Return the players currentMoney, currentReputation, currentNodeIndex
+     */
+    /**
+     * Traverse allows player to play the game
+     * @param player
      */
     public void traverse(Player player){
         
@@ -320,7 +370,12 @@ class GameGraph {
         }
     }
 }
-        private Node updateNode(Node currentNode){
+    /**
+     * Updates Node
+     * @param currentNode
+     * @return updated Node
+     */  
+    private Node updateNode(Node currentNode){
             int currentIndex = this.getOrderNodes().indexOf(currentNode);
             // If the currentCode is not divided by 2, reset the currentNode to currentNode - 1
             if (this.getOrderNodes().indexOf(currentNode) % 2 == 1){
@@ -332,6 +387,8 @@ class GameGraph {
         
     /**
      * Method to resume the game from saved progress.
+     * @param playerName
+     * @return Player
      */
         public Player resume(String playerName) {
             String userFileName = playerName + "_save.txt";
@@ -377,7 +434,10 @@ class GameGraph {
                 return null;
             }
         }
-        
+        /**
+         * Starts game for player
+         * @return player
+         */
         public Player startGame() {
             System.out.println("Choose 1 to start a new game or 2 to resume where you left");
             int response = getUserInput(scanner, 1, 2);
@@ -420,7 +480,10 @@ class GameGraph {
             }
 
         }
-
+        /**
+         * Method saves and stores progress
+         * @param player
+         */
         public void saveAndStoreProgress(Player player) {
             String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
     
