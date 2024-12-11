@@ -446,7 +446,7 @@ class GameGraph {
                 String moneyLine = reader.readLine();
                 String missionLine = reader.readLine();
                 if(nameLine == null || reputationLine == null ||moneyLine == null || missionLine == null){
-                    return new Player(playerName, 200.0, 0, null);
+                    return new Player(playerName, 200.0, 0, orderNodes.get(0));
                 }
                 // Parse the player's attributes
                 String name = nameLine.split(":")[1].trim();
@@ -466,7 +466,8 @@ class GameGraph {
                 //System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
                 //return null;
                 if(currentNode == null){
-                    return new Player(playerName, 200.0, 0, null);
+                    System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
+                    currentNode = orderNodes.get(0);
                 }
                  // Create the Player object
                  Player player = new Player(name, money, reputation, currentNode);
@@ -474,13 +475,14 @@ class GameGraph {
                  return player;
             } catch (IOException | NumberFormatException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
+                e.printStackTrace();
                 //return null; // Return null in case of an error
-                return new Player(playerName, 200.0, 0, null);
+                return new Player(playerName, 200.0, 0, orderNodes.get(0));
             }
         } else {
             // If no saved game is found
             System.out.println("No saved game found. Starting a new game.");            
-            return new Player(playerName, 200.0, 0, null);
+            return new Player(playerName, 200.0, 0, orderNodes.get(0));
             //return null;
         }
     }
