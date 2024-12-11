@@ -445,7 +445,9 @@ class GameGraph {
                 String reputationLine = reader.readLine();
                 String moneyLine = reader.readLine();
                 String missionLine = reader.readLine();
-
+                if(nameLine == null || reputationLine == null ||moneyLine == null || missionLine == null){
+                    return new Player(playerName, 200.0, 0, null);
+                }
                 // Parse the player's attributes
                 String name = nameLine.split(":")[1].trim();
                 int reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
@@ -470,12 +472,14 @@ class GameGraph {
 
             } catch (IOException | NumberFormatException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
-                return null; // Return null in case of an error
+                //return null; // Return null in case of an error
+                return new Player(playerName, 200.0, 0, null);
             }
         } else {
             // If no saved game is found
-            System.out.println("No saved game found. Starting a new game.");
-            return null;
+            System.out.println("No saved game found. Starting a new game.");            
+            return new Player(playerName, 200.0, 0, null);
+            //return null;
         }
     }
 
