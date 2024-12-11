@@ -1,6 +1,6 @@
 # CSC120_Final_Project Description
 
-Win the game: Finish all 3 missions. There are two mission parts within a mission
+Win the game: Finish all 3 missions. 
 
 ## Mission 1: The Car Heist
 Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
@@ -34,7 +34,6 @@ Description: After proving yourself in the car heist, Vinnie gives you a tougher
 ### Requirements: 
 $200, 10 reputation point
 
-
 ### Key Choices
 - Collecting the Stash:
     - Quick Grab: Take one item and leave quickly to avoid detection.
@@ -59,7 +58,6 @@ Objective: Pull off a bank heist with Vinnie’s crew as the getaway driver. Des
 ### Requirements: 
 $200, 30 reputation point
 
-
 ### Key Choices
 - Police Chase:
     Evade the Police: Use your driving skills to outmaneuver police cars and escape.
@@ -73,7 +71,6 @@ $200, 30 reputation point
         Outcome: Reputation +10 and Vinnie’s trust, ensuring future jobs with the crew.
     Betray the Crew: Escape with the entire loot.
         Outcome: Money +$500 but Reputation -20 (Vinnie and his crew will hunt you down in future missions).
-
 
 ## Side Quests (to either increase reputation points or money): 
 - Side Quests are available if the user cant unlock the next sub-missions
@@ -90,14 +87,3 @@ Successful Collection:
 - Polite but Firm: Reputation +5, Money +$100.
 - Intimidating: Reputation +10, Money +$150, with a 20% chance of police involvement (Money -$100 for bail).
 - Failed Collection (if police are called): Money -$100, Reputation -5 (for getting caught).
-
-## Side Quest 2: Burger King
-- Earnings: $15/hr
-- Total money earned: 15 hours worked + no increase in reputation
-
-### Key Choices: 
-- How many hours do you want to work? 
-
-### Ideas for the code reviews
-- Method for the repeated lines, consider overloading 
-- Different missions: instances as opposed to subclasses
