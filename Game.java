@@ -11,15 +11,15 @@ public class Game {
 
     // Constructor
     public Game(Player player) {
-        //this.player = player;
+        // this.player = player;
         this.players = new ArrayList<>();
-       // this.progress = new Hashtable<>();
+        // this.progress = new Hashtable<>();
         this.userInput = new Scanner(System.in);
         this.missions = new ArrayList<>();
     }
 
     // public Player getPlayer() {
-    //     return player;
+    // return player;
     // }
 
     /**
@@ -37,8 +37,6 @@ public class Game {
         return true;
     }
 
-   
-
     /**
      * Method to add a user to the game.
      */
@@ -55,7 +53,7 @@ public class Game {
      * Method to save and store progress of the game.
      */
     public void saveAndStoreProgress() {
-        String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]","") + "_save.txt";
+        String userFileName = player.getName().replaceAll("[^a-zA-Z0-9_]", "") + "_save.txt";
 
         // Create new file or overwrite existing files
         try (BufferedWriter out = new BufferedWriter(new FileWriter(userFileName))) {
@@ -63,13 +61,13 @@ public class Game {
             out.write("Player name:" + player.getName() + "\n");
             out.write("Reputation:" + player.getReputation() + "\n");
             out.write("Money:" + player.getMoney() + "\n");
-            if(missions != null && !missions.isEmpty()){
-                out.write("Last completed Mission:" + missions.get(missions.size()-1).getName() + "\n");
-            }else{
+            if (missions != null && !missions.isEmpty()) {
+                out.write("Last completed Mission:" + missions.get(missions.size() - 1).getName() + "\n");
+            } else {
                 out.write("Last completed Mission: None\n");
             }
             out.flush();
-            if(!players.contains(player)){
+            if (!players.contains(player)) {
                 addUser(player);
 
             }
@@ -88,36 +86,43 @@ public class Game {
         File saveFile = new File(userFileName);
         if (saveFile.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(userFileName))) {
-                System.out.println("Reading saved file: "+ userFileName);
+                System.out.println("Reading saved file: " + userFileName);
                 String nameLine = reader.readLine();
                 String reputationLine = reader.readLine();
                 String moneyLine = reader.readLine();
                 String missionLine = reader.readLine();
 
-                String name = (nameLine != null && nameLine.contains(":"))?nameLine.split(":")[1].trim():null;
-                int reputation = (reputationLine != null && nameLine.contains(":"))?Integer.parseInt(reputationLine.split(":")[1].trim()):0;
-                double money = (moneyLine != null && moneyLine.contains(":"))?Double.parseDouble( moneyLine.split(":")[1].trim()):0;
-                if(player == null){
-                    player = new Player(name, money);
-                }
-                player.setName(name);
-                player.setMoney(money);
-                player.setReputation(reputation);
+                String name = (nameLine != null && nameLine.contains(":")) ? nameLine.split(":")[1].trim() : null;
+                int reputation = (reputationLine != null && reputationLine.contains(":"))
+                        ? Integer.parseInt(reputationLine.split(":")[1].trim())
+                        : 0;
+                double money = (moneyLine != null && moneyLine.contains(":"))
+                        ? Double.parseDouble(moneyLine.split(":")[1].trim())
+                        : 200.0;
                 String lastMission = (missionLine != null && !missionLine.equals("Last Completed Mission:None"))
-                ? missionLine.split(":")[1].trim() : "None";
+                        ? missionLine.split(":")[1].trim()
+                        : "None";
+                if (player == null) {
+                    player = new Player(name, money);
+                    player.setReputation(reputation);
+                } else {
+                    player.setName(name);
+                    player.setReputation(reputation);
+                    player.setMoney(money);
+                }
 
                 System.out.println("Player Name: " + player.getName());
                 System.out.println("Player Reputation: " + player.getReputation());
                 System.out.println("Player Money: " + player.getMoney());
                 System.out.println("Last Completed Mission: " + lastMission);
                 System.out.println("Game resumed successfully.");
-                //checkWinStatus();
+                // checkWinStatus();
             } catch (IOException | NumberFormatException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
             }
         } else {
             System.out.println("No saved game found. Starting a new game.");
-            if(player == null){
+            if (player == null) {
                 player = new Player(playerName, 200.0);
             }
             startGame(player);
@@ -130,7 +135,7 @@ public class Game {
     public void pauseGame() {
         saveAndStoreProgress();
         System.out.println("Game paused.");
-        
+
     }
 
     /**
