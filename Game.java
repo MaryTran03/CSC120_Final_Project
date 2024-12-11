@@ -94,10 +94,12 @@ public class Game {
                 String moneyLine = reader.readLine();
                 String missionLine = reader.readLine();
 
-                String name = nameLine.split(":")[1].trim();
-                int reputation = Integer.parseInt( reputationLine.split(":")[1].trim());
-                double money = Double.parseDouble( moneyLine.split(":")[1].trim());
-                
+                String name = (nameLine != null && nameLine.contains(":"))?nameLine.split(":")[1].trim():null;
+                int reputation = (reputationLine != null && nameLine.contains(":"))?Integer.parseInt(reputationLine.split(":")[1].trim()):0;
+                double money = (moneyLine != null && moneyLine.contains(":"))?Double.parseDouble( moneyLine.split(":")[1].trim()):0;
+                if(player == null){
+                    player = new Player(name, money);
+                }
                 player.setName(name);
                 player.setMoney(money);
                 player.setReputation(reputation);
@@ -115,6 +117,9 @@ public class Game {
             }
         } else {
             System.out.println("No saved game found. Starting a new game.");
+            if(player == null){
+                player = new Player(playerName, 200.0);
+            }
             startGame(player);
         }
     }
