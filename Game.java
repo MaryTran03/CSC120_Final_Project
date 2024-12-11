@@ -74,7 +74,6 @@ public class Game {
             System.out.println("Game progress saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save the game: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
