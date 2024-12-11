@@ -450,7 +450,12 @@ class GameGraph {
                 }
                 // Parse the player's attributes
                 String name = nameLine.split(":")[1].trim();
-                int reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
+                int reputation = 0;
+                try{
+                    reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
+                }catch (NumberFormatException e){
+                    System.out.println("Invalid reputation points value in save file. Setting it to 0.");
+                }
                 double money = Double.parseDouble(moneyLine.split(":")[1].trim());
                 String nameCurrentNode = missionLine.replace("Last completed mission: ", "").trim();
                 Node currentNode = null;
