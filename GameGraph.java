@@ -453,23 +453,25 @@ class GameGraph {
                 int reputation = Integer.parseInt(reputationLine.split(":")[1].trim());
                 double money = Double.parseDouble(moneyLine.split(":")[1].trim());
                 String nameCurrentNode = missionLine.replace("Last completed mission: ", "").trim();
-
+                Node currentNode = null;
                 // Search for the Node with the matching name
                 for (Node node : orderNodes) {
                     if (node.getName().equals(nameCurrentNode)) {
-                        Node currentNode = node;
-
-                        // Create the Player object
-                        Player player = new Player(name, money, reputation, currentNode);
-                        System.out.println("Game resumed.");
-                        return player;
+                        currentNode = node;
+                        break;
                     }
                 }
-
+                
                 // If no matching Node is found
-                System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
-                return null;
-
+                //System.err.println("No matching node found for the last completed mission: " + nameCurrentNode);
+                //return null;
+                if(currentNode == null){
+                    return new Player(playerName, 200.0, 0, null);
+                }
+                 // Create the Player object
+                 Player player = new Player(name, money, reputation, currentNode);
+                 System.out.println("Game resumed.");
+                 return player;
             } catch (IOException | NumberFormatException e) {
                 System.err.println("Failed to resume the game: " + e.getMessage());
                 //return null; // Return null in case of an error
@@ -538,10 +540,10 @@ class GameGraph {
             System.out.println("\n***************************");
             System.out.println("Saving game progress for " + player.getName() + "...");
 
-            out.write("Player name:" + player.getName() + "\n");
-            out.write("Reputation:" + player.getCurrentReputation() + "\n");
-            out.write("Money:" + player.getCurrentMoney() + "\n");
-            out.write("Last completed mission: " + player.getCurrentNode().getName() + "\n");
+            out.write(String.format("Player name: %s\n", player.getName()));
+            out.write(String.format("Reputation: %i\n" ,player.getCurrentReputation()));
+            out.write(String.format("Money: %d\n" ,player.getCurrentMoney()));
+            out.write(String.format("Last completed mission: %s\n" ,player.getCurrentNode().getName()));
 
             // Printing out the player's progress
             System.out.println("Player Reputation: " + player.getCurrentReputation());
