@@ -1,4 +1,4 @@
 Player name:eee
-Reputation:0
+Reputation:30
 Money:1000.0
 Last completed mission: The Final Heist Police Escape

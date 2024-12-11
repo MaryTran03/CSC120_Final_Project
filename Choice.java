@@ -4,11 +4,11 @@
  * a success probability, and an optional next node if the choice is successful.
  */
 public class Choice {
-    private String description; // The description of the choice
-    private String name; // The name of the choice
-    private double successProbability; // The probability of success (0.0 to 1.0)
-    private int moneyReward; // The money reward for this choice
-    private int reputationReward; // The reputation reward for this choice
+    private String description; 
+    private String name; 
+    private double successProbability; 
+    private int moneyReward; 
+    private int reputationReward; 
     private Node nextNode; // The next node to transition to if the choice is successful
 
     /**
