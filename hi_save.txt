@@ -1,0 +1,4 @@
+Player name:hi
+Reputation:-4
+Money:150.0
+Last completed mission: Car Heist Choose Car

@@ -1,4 +1,0 @@
-Player name:kevin
-Reputation:45
-Money:1600.0
-Last completed mission: Car Heist Part 1

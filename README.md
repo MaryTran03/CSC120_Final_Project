@@ -11,18 +11,21 @@ $200, 0 reputation point
 
 ### Key Choices:
 - Steal the cheaper car or more expensive car
-    Probability of success: 1.00 (assuming zero risk of being caught by the police)
-    Reputation + 10 
-    Money +$100
-- Joyride and Racing: 
-    Probability of success: 0.5 (racing increases the risk of being caught by the police)
-(success) Avoid the police + return the car
-    Reputation + 10
-    Money +$100
-(caught) Paid bail and lose reputation
-    Money: -$200
-    Reputation: -10
+    - Cheaper car: Ooops, the car breaks down. Repair it?
+        - Yes: go to the cheaper or more expensive shop
+            - Cheaper: - $100
+            - Expensive: - $200 
+                - Then deliver to Vinnie: After fixing, it meets his expectation. + 8 reputation point
+        - No: Skip to the next Node (deliver/ joy ride)
 
+    - Expensive car: draws the eyes of everyone else, including the police unfortunately. Stopped by the police to check your license, and ownership certificate. Faced with the police, what should you do?
+        - Present the fake certificate: mission failed
+            - Lose $100 in bail and 10 reputation point
+        - Race with him on the street: Skip to the next Node (deliver/ joy ride)   
+
+- Deliver/ Joy Ride 
+    - Deliver immediately: get your full money and reward
+    - Joyride: He got impatient. You did not earn fewer reputation points. 
 
 ## Mission 2: The Warehouse Raid
 Objective: Infiltrate the Iron Hounds’ warehouse and steal valuable goods for Vinnie. Need 10 reputation points to unlock
@@ -35,15 +38,17 @@ $200, 10 reputation point
 ### Key Choices
 - Collecting the Stash:
     - Quick Grab: Take one item and leave quickly to avoid detection.
-    Outcome: Money +$100, Reputation +5, low risk of detection.
-    - Full Stash: Take as many items as possible for a higher reward.
-    Outcome: Money +$300, Reputation +10, higher risk of triggering the alarm.
-        If the alarm triggers: Police arrive, leading to a chase with potential penalties (Money -$100 if caught).
+        - Skip to the Final Node: Direct (guarded) or Indirect (not guarded)
+    - Full Stash: You took so long, so the alarm is triggered. You have way too many things to carry. 
+        - Drop some items and run faster (earn lower reputation points)
+            Skip to the final Node: Direct (guarded) or Indirect (not guarded)
+        - Bring them all with you: keep the reputation point
+
 - Escape Route:
     - Direct Route: The fastest way out but guarded by the Iron Hounds.
     Outcome if successful: You escape quickly with minimal loss.
     Risk: Moderate chance of encountering rival gang members.
-        If caught: Money -$50, Reputation -5.
+    If caught: Money -$50, Reputation -5.
     - Stealth Route: A slower but safer way out through the back alleys.
     Outcome: You escape unnoticed.
     Reward: Money +$50 for avoiding detection.

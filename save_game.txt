@@ -1,4 +1,0 @@
-Player name:Trang
-Reputation:0
-Money:200.0
-Last completed Mission:The Car Heist
