@@ -547,7 +547,6 @@ class GameGraph {
             System.out.println("Player Reputation: " + player.getCurrentReputation());
             System.out.println("Player Money: $" + player.getCurrentMoney());
             System.out.println("Last Completed Mission: " + player.getCurrentNode().getName());
-
             out.flush();
             System.out.println("\nGame progress saved successfully.");
 
