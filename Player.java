@@ -9,12 +9,12 @@ public class Player{
     public Player(String name, double currentMoney, int currentReputation, Node currentNode) {
         this.currentNode = currentNode;
         this.name = name;
-        this.currentReputation = 0;  // Start reputation at 0
+        this.currentReputation = currentReputation;  
         this.currentMoney = currentMoney;   // Starting money at $100
        
     }
 
-    // For new players with default values for current reputation
+    // For new players with default values for current reputation and money
     public Player(String name, Node currentNode) {
         this.currentNode = currentNode;
         this.name = name;

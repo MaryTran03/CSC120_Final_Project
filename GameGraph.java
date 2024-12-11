@@ -120,7 +120,7 @@ class GameGraph {
         System.out.println("But beware, each mission demands a specific amount of money and reputation points to unlock. Don't worry, you can always tackle side quests to boost your stats.");
         System.out.println("\nRemember, you can pause the game at any moment to save your progress and resume later");
         System.out.println("\nWin the game: Finish all 3 missions.\n");
-        System.out.println("Good luck, and may you succeed in completing all the missions! Press any key to continue");
+        System.out.println("Good luck, and may you succeed in completing all the missions! \n Press ENTER to continue");
 
         scanner.nextLine();
     }
@@ -214,206 +214,154 @@ class GameGraph {
         return player.getCurrentMoney() >= node.getMinMoney() && player.getCurrentReputation() >= node.getMinReputation();
     }
 
+    /**
+     * Handles side quests to help the player gain money and reputation 
+     * to unlock the next node.
+     *
+     * @param player The player attempting to progress.
+     * @param targetNode The node the player is trying to unlock.
+     * @return boolean indicating whether the player paused the game.
+     */
+    public boolean handleSideQuests(Player player, Node targetNode) {
+        while (!canAccessNode(targetNode, player)) {
+            System.out.println("\nYou need $" + targetNode.getMinMoney() +
+                    " and " + targetNode.getMinReputation() + " reputation to unlock " + targetNode.getName());
+            System.out.println("\nComplete side quests to meet the requirements.");
+            
+            // Display available side quests
+            displaySideQuests(sideQuests);
+            int response = getUserInput(scanner, 1, sideQuests.size() + 1);
+
+            // Handle game pause
+            if (response == sideQuests.size() + 1) {
+                System.out.println("Game Paused. Progress saved.");
+                saveAndStoreProgress(player);
+                return true; // Indicate the game is paused
+            }
+
+            // Execute the selected side quest
+            Node selectedQuest = sideQuests.get(response - 1);
+            List<Choice> sideQuestChoices = getChoices(selectedQuest);
+            displayChoices(sideQuestChoices);
+            int choiceInput = getUserInput(scanner, 1, sideQuestChoices.size());
+
+            Choice questChoice = sideQuestChoices.get(choiceInput - 1);
+            if (isSuccessful(questChoice.getSuccessProbability())) {
+                player.setCurrentMoney(player.getCurrentMoney() + questChoice.getMoneyReward());
+                player.setCurrentReputation(player.getCurrentReputation() + questChoice.getReputationReward());
+                System.out.println("Success! Money: $" + player.getCurrentMoney() + ", Reputation: " + player.getCurrentReputation());
+            } else {
+                System.out.println("\nSide quest failed! No rewards gained.");
+            }
+        }
+
+        return false; // Player can proceed to the target node
+    }
+
     /*
      * Move the player through the map by getting user input, executing the probability weighted choices (edges)
      * 
      * @param player the player
      */
-    public void traverse(Player player){
-        
-        ArrayList<Node> orderNodes = this.getOrderNodes();
-        Node currentNode = player.getCurrentNode(); // default to StartNode to user
+
+     public void traverse(Player player) {
+        Node currentNode = player.getCurrentNode(); // Default to StartNode for new user
         boolean userPause = false;
-
-        while(!userPause){
-            Mission currentMission = getMissions().get(currentNode.getMission() -1);
-
-            // Only print current mission for the first part of the mission
-            if (currentMission.getMissionNodes().indexOf(currentNode) == 0){
-                System.out.println("Moving on to the next mission");
+    
+        while (!userPause) {
+            Mission currentMission = getMissions().get(currentNode.getMission() - 1);
+    
+            // Display mission details if starting a new mission
+            if (currentMission.getMissionNodes().indexOf(currentNode) == 0) {
                 System.out.println("\n***************************");
-                System.out.println("Current Mission: " + currentMission.getName()); 
+                System.out.println("Current Mission: " + currentMission.getName());
+                System.out.println("Your Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
             }
-
-            System.out.println("\n" + currentNode.getDescription());
-            List<Choice> choices = getChoices(currentNode); 
-        
-            // Break if completed game
-            if (currentNode == orderNodes.get(orderNodes.size() - 1)) { 
-                System.out.println("\n***************************");   
-                System.out.println("YOU COMPLETED ALL 3 MISSONS AND WON THE GAME!"); 
-                player.setCurrentNode(currentNode);
-                saveAndStoreProgress(player);
-                break; 
-            }
-            
-            // Display and get the choices
-            displayChoices(choices);
-            int userInput = getUserInput(scanner, 1, choices.size());
-
-            // If the user pause (the last option)
-            if (userInput == choices.size()){
-                // Be careful not to update currentNode to endNode
-                System.out.println("\n***************************");   
-                System.out.println("Game Paused"); 
+    
+            // Check if the player has completed the game
+            if (currentNode == orderNodes.get(orderNodes.size() - 1)) {
+                System.out.println("\n***************************");
+                System.out.println("CONGRATULATIONS! YOU COMPLETED ALL MISSIONS!");
+                System.out.println("Final Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
                 player.setCurrentNode(currentNode);
                 saveAndStoreProgress(player);
                 break;
             }
-
-            // Execute the choice with probability
-            Choice selectedChoice = choices.get(userInput - 1); // Minus 1 because indexing start at 1
-
-            // If successful
-            if (isSuccessful(selectedChoice.getSuccessProbability())) { 
-                Node nextNode = selectedChoice.getNextNode(); 
-
-                // Update the Money and Reputation Points
+    
+            // Check if the player can unlock the current node
+            if (!canAccessNode(currentNode, player)) {
+                System.out.println("\nYou need more money or reputation to proceed with the current mission at " + currentNode.getName());
+                System.out.println("Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
+                userPause = handleSideQuests(player, currentNode);
+    
+                // If the game was paused during side quests, exit the loop
+                if (userPause) {
+                    break;
+                }
+    
+                // After completing side quests, recheck if the player can unlock the current node
+                if (!canAccessNode(currentNode, player)) {
+                    System.out.println("\nYou still cannot unlock the current node. Complete more side quests.");
+                    continue;
+                }
+            }
+    
+            // Display the current node description and choices
+            System.out.println("\n" + currentNode.getDescription());
+            System.out.println("Your Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
+            List<Choice> choices = getChoices(currentNode);
+            displayChoices(choices);
+    
+            // Get user input for the next choice
+            int userInput = getUserInput(scanner, 1, choices.size());
+    
+            // Handle game pause
+            if (userInput == choices.size()) {
+                System.out.println("\nGame Paused. Progress saved.");
+                player.setCurrentNode(currentNode);
+                saveAndStoreProgress(player);
+                break;
+            }
+    
+            // Execute the selected choice
+            Choice selectedChoice = choices.get(userInput - 1);
+            if (isSuccessful(selectedChoice.getSuccessProbability())) {
+                // Success: Update player stats and check for next node
                 player.setCurrentMoney(player.getCurrentMoney() + selectedChoice.getMoneyReward());
                 player.setCurrentReputation(player.getCurrentReputation() + selectedChoice.getReputationReward());
-
-                System.out.println("\nSuccess!"); 
-                System.out.println("Current Money: $" + player.getCurrentMoney());                 
-                System.out.println("Current Reputation: " + player.getCurrentReputation()); 
-
-                if (canAccessNode(nextNode, player)){
-                    player.setCurrentNode(nextNode); // Move the player to the nextNode
-                    currentNode = nextNode; 
-                    continue;
-                } else {
-
-                    // Create the loop for user to constantly do Side Quests to meet the requirement for the next Node
-                    while(!userPause){
-                        System.out.println("\nYou have not earned enough money or reputation to advance to " + nextNode.getName()); 
-                        System.out.println("Minimum requirements $" + nextNode.getMinMoney() + ", Reputation: " + nextNode.getMinReputation());
-                        System.out.println("\nYou need to complete side quests to unlock the next mission");     
-
-                        // Keep asking users to Side Quest unless they want to resume their misisons (and if they are eligible to)
-                        displaySideQuests(sideQuests);
-                        int response = getUserInput(scanner, 1, sideQuests.size() + 1); // + 1 because of the option to pause the game
-
-                        if (response == sideQuests.size() + 1){
-                            // Be careful not to update currentNode to endNode
-                            System.out.println("Thank you for playing! Game Paused"); 
-                            player.setCurrentNode(currentNode);
-                            userPause = true;
-                            saveAndStoreProgress(player);
-                            break;
-                        }
-
-                        // Be careful not to update currentNode to endNode. Select Side Quest
-                        Node currentSideQuest = getSideQuests().get(response - 1); // -1 because indexing starts at 0
-                        displayChoices(getChoices(currentSideQuest));
-
-                        int input = getUserInput(scanner, 1, choices.size());
-
-                        // Pause the game
-                        if (input == choices.size()){ // Pausing is always the last option
-                            // Be careful not to update currentNode to endNode
-                            System.out.println("\n***************************");   
-                            System.out.println("Thank you for playing! Game Paused"); 
-                            player.setCurrentNode(currentNode);
-                            saveAndStoreProgress(player);
-                            userPause = true;
-                            break;
-                        }
-
-                        // Execute the choice with probability
-                        Choice selected = getChoices(currentSideQuest).get(input - 1); // Minus 1 because indexing start at 1
-
-                        // If successful
-                        if (isSuccessful(selected.getSuccessProbability())) { 
-
-                            // Update the Money and Reputation Points
-                            player.setCurrentMoney(player.getCurrentMoney() + selected.getMoneyReward());
-                            player.setCurrentReputation(player.getCurrentReputation() + selected.getReputationReward());
-                            System.out.println("Current Money: $" + player.getCurrentMoney());                 
-                            System.out.println("Current Reputation: " + player.getCurrentReputation());             
-                        }
-
-                        // After completing the sideQuest, automatically move them to the nextNode
-                        if (canAccessNode(nextNode, player)){
-                            System.out.println("\nYou met the requirements. Moving you to the next mission ...");
-                            currentNode = nextNode;
-                            break; 
+                System.out.println("\nSuccess! Money: $" + player.getCurrentMoney() + ", Reputation: " + player.getCurrentReputation());
+    
+                Node nextNode = selectedChoice.getNextNode();
+                if (nextNode != null && canAccessNode(nextNode, player)) {
+                    currentNode = nextNode; // Move to the next node
+                    player.setCurrentNode(nextNode);
+                } else if (nextNode != null) {
+                    System.out.println("\nYou need more money or reputation to proceed to " + nextNode.getName());
+                    userPause = handleSideQuests(player, nextNode);
+                    if (!userPause && canAccessNode(nextNode, player)) {
+                        currentNode = nextNode; // Move to the next node after side quests
+                        player.setCurrentNode(nextNode);
                     }
-                }   continue;
-            }
-        } 
-
-            // If not successful
-            else { 
-                System.out.println("\nYou are caught and beaten! Lose 20 reputation points and pay $300 in bail or damage ."); 
-                // Update the Money and Reputation Points
+                }
+            } else {
+                // Failure: Apply penalties and restart at the current mission's first node
+                System.out.println("\nYou failed! Lost $300 and 20 reputation points.");
                 player.setCurrentMoney(player.getCurrentMoney() - 300);
                 player.setCurrentReputation(player.getCurrentReputation() - 20);
-
-                System.out.println("Current Money: $" + player.getCurrentMoney());                 
-                System.out.println("Current Reputation: " + player.getCurrentReputation()); 
-
-                //Update the node;
+                System.out.println("Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
+    
                 currentNode = updateNode(currentNode);
-                System.out.println("\n You have to restart at " + currentNode.getName());
-                
+                player.setCurrentNode(currentNode);
+                System.out.println("\nRestarting at " + currentNode.getName());
+    
                 if (!canAccessNode(currentNode, player)) {
-
-                // Create the loop for user to constantly do Side Quests if they cant unlock the current mission.
-                    while(!userPause){
-                        System.out.println("\nYou have not earned enough money and reputation to resume at " + currentNode.getName()); 
-                        System.out.println("Minimum requirements $" + currentNode.getMinMoney() + ", Reputation: " + currentNode.getMinReputation());
-                        System.out.println("\nYou need to complete side quests to increase your money and reputation.");  
-                        
-                        // Keep asking users to Side Quest unless they want to resume their misisons (and if they are eligible to)
-                        displaySideQuests(sideQuests);
-                        int response = getUserInput(scanner, 1, sideQuests.size() + 1);
-
-                        if (response == sideQuests.size() + 1){
-                            // Be careful not to update currentNode to endNode
-                            System.out.println("Thank you for playing! Game Paused"); 
-                            player.setCurrentNode(currentNode);
-                            userPause = true;
-                            saveAndStoreProgress(player);
-                            break;
-                        }
-
-                        // Be careful not to update currentNode to endNode
-                        Node currentSideQuest = getSideQuests().get(response - 1); // -1 because indexing starts at 0
-                        displayChoices(getChoices(currentSideQuest));
-
-                        int input = getUserInput(scanner, 1, choices.size() + 1); // + 1 to include the third option for pausing
-                        if (input == 3 & response == 2 | input == 2 & response == 1){
-                            // Be careful not to update currentNode to endNode
-                            System.out.println("\n***************************");   
-                            System.out.println("Thank you for playing! Game Paused"); 
-                            player.setCurrentNode(currentNode);
-                            saveAndStoreProgress(player);
-                            userPause = true;
-                            break;
-                        }
-
-                        // Execute the choice with probability
-                        Choice selected = getChoices(currentSideQuest).get(input - 1); // Minus 1 because indexing start at 1
-
-                        // If successful
-                        if (isSuccessful(selected.getSuccessProbability())) { 
-                            // Update the Money and Reputation Points
-                            player.setCurrentMoney(player.getCurrentMoney() + selected.getMoneyReward());
-                            player.setCurrentReputation(player.getCurrentReputation() + selected.getReputationReward());
-                            System.out.println("Current Money: $" + player.getCurrentMoney());                 
-                            System.out.println("Current Reputation: " + player.getCurrentReputation());             
-                        }
-
-                        // After complete SideQuest check their current status. If they are eligible ask if they want to continue to do SideQuests
-                        if (canAccessNode(currentNode, player)){
-
-                                break;
-                        }
-                    }
-                } 
+                    System.out.println("\nYou need to complete side quests to resume.");
+                    userPause = handleSideQuests(player, currentNode);
+                }
             }
         }
     }
-
+    
     /**
      * Updates the current node for a player based on their progress.
      * 
@@ -512,7 +460,7 @@ class GameGraph {
             System.out.println("\nStarting Reputation: " + player.getCurrentReputation());
             System.out.println("Starting Money: $" + player.getCurrentMoney());
             System.out.println("Starting Mission: " + player.getCurrentNode().getName());
-            System.out.println("\nPress any key to continue");
+            System.out.println("\nPress ENTER to continue");
             scanner.nextLine();
 
             return player;
@@ -528,7 +476,7 @@ class GameGraph {
             System.out.println("\nStarting Reputation: " + player.getCurrentReputation());
             System.out.println("Starting Money: $" + player.getCurrentMoney());
             System.out.println("Starting Mission: " + player.getCurrentNode().getName());
-            System.out.println("\nPress any key to continue");
+            System.out.println("\nPress ENTER to continue");
             scanner.nextLine();
 
             return player;

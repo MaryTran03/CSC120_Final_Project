@@ -142,10 +142,12 @@ public class Main {
 
         game.addNode(mission3_police_escape);
         game.addNode(mission3_split_loot);
-        game.addNode(endNode);
-
         game.addNode(badDebt);
         game.addSideQuest(badDebt);
+
+        // End Node must be the last Node
+        game.addNode(endNode);
+
 
         // Adding choices as edges with probabilities
         game.addEdge(mission1_choose_car, choice1_1_cheap);
@@ -203,6 +205,7 @@ public class Main {
         } else {
             game.describeGame();
             game.traverse(player);
+            //game.handleSideQuests(player,mission3_police_escape);
             game.endGame();    
         }    
     }
