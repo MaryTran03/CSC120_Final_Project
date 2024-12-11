@@ -543,8 +543,8 @@ class GameGraph {
             System.out.println("Saving game progress for " + player.getName() + "...");
 
             out.write(String.format("Player name: %s\n", player.getName()));
-            out.write(String.format("Reputation: %i\n" ,player.getCurrentReputation()));
-            out.write(String.format("Money: %d\n" ,player.getCurrentMoney()));
+            out.write(String.format("Reputation: %d\n" ,player.getCurrentReputation()));
+            out.write(String.format("Money: %.2f\n" ,player.getCurrentMoney()));
             out.write(String.format("Last completed mission: %s\n" ,player.getCurrentNode().getName()));
 
             // Printing out the player's progress
