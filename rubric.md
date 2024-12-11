@@ -7,10 +7,14 @@ YES 2 pts: Submission includes a **cheat sheet** (`cheatsheet.md`) documenting a
 YES 2 pts: Storyline driving the game is **engaging**, and individual elements of play make sense within the context of the story.
 
 YES 2 pts: Game has **multiple possible paths / outcomes** (i.e. gameplay depends on player's choices and is not the same every time).
+      As demonstrated in the cheatsheet, each mission can have multiple parts, depending on the user choice. Users can also do Side Quests to earn enough money/ reputation points to unlock the next mission. 
 
 YES 1 pt: Gameplay supports **reversible moves** where reasonable (e.g., if you pick up an object, you should be able to put it back down again later, possibly in a different place; if you go north then you should be able to return to the previous location by going south unless something has blocked your return path).
+      Once completed a mission, the user DOES NOT have the option to go back. HOWEVER, the reversible moves requirements are satisfied in 2 ways. Firstly, a user can save their progress and resume later by typing in their last user name. Secondly, if they failed any part of a current mission, the game automatically restarts at the first part of the current mission. 
+
 
 YES 1 pt: Some paths through the game have **restricted access** until the player has completed a task or acquired a specific item (i.e. a key to open a door, etc.).
+      Missions have minimum money and reputation requirements to unlock. You can not skip the 2nd mission to jump straight to the 3rd mission. 
 
 
 ## Back-End Design (10 pts)

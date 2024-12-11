@@ -1,89 +1,31 @@
-# CSC120_Final_Project Description
+## Additional Reflection Questions
+- What was your overall approach to tackling this project?
+    Our overall approach was to break the project into smaller, manageable components and tackle them incrementally. We started by defining the core classes and their relationships (e.g., Player, Node, Choice, Mission, and SideQuest) to establish a solid foundation. Since our first architecture diagram, we have cut 2 repetitive classes. Next, we focused on implementing the game logic using a GameGraph, ensuring that the traversal, input validation, and state management worked as expected. We regularly tested each feature to identify logic errors and fix bugs early in the development process. 
 
-Win the game: Finish all 3 missions. 
+- What new thing(s) did you learn / figure out in completing this project?
+    - Through this project, we learned how to design and implement graph-based game structures to represent dynamic, interconnected gameplay. We also deepened our understanding of Java collections like HashMap, ArrayList, and Set for storing and managing nodes, choices, and player data. It was challengeing we incorporate probability and use each Choice object as an edge.
+    - Additionally, we improved our ability to handle file I/O for saving and resuming game progress, ensuring persistence across sessions.
 
-## Mission 1: The Car Heist
-Objective: Prove yourself to Vinnie by stealing a high-end car from a wealthy neighborhood.
-Description: Vinnie needs a luxury car for a deal and sends you to steal one from a nightclub parking lot. However, you have some free time before delivering it to Vinnie. It is a beautiful day in Florida ...
+- Is there anything that you wish you had implemented differently?
+    - Be more mindful when collaborating in Github and deal with merge conflicts
+    - We wish we had initially integrated more dynamic methods for validating and transitioning between nodes. Early on, we relied on repetitive logic (loops and classes) for handling side quests and progression, which was less efficient than using Maps (Nodes and Edges).
+    - We wish we had agreed on a consistent method to deal with user input (by asking for 1,2,3 to avoid different spelling errors)
 
-### Requirements: 
-$200, 0 reputation point
+- If you had unlimited time, what additional features would you implement?
+    - Add a graphical user interface (GUI) to improve user interaction and visualization.
+    - Implement a branching story system with consequences that affect future missions based on player choices.
+    - Add multiplayer functionality where players can collaborate or compete in missions.
+    - Develop a statistics tracker to analyze player progress and decisions over time.
+    - Add timed missions instead of simplying choose option 1 or 2 to proceed
 
-### Key Choices:
-- Steal the cheaper car or more expensive car
-    - Cheaper car: Ooops, the car breaks down. Repair it?
-        - Yes: go to the cheaper or more expensive shop
-            - Cheaper: - $100
-            - Expensive: - $200 
-                - Then deliver to Vinnie: After fixing, it meets his expectation. + 8 reputation point
-        - No: Skip to the next Node (deliver/ joy ride)
+- What was the most helpful piece of feedback you received while working on your project? Who gave it to you?
+    The most helpful feedback came from a peer, who suggested consolidating redundant code into reusable methods, especially for handling side quests and node transitions. This advice significantly improved the maintainability of the codebase and allowed us to focus on expanding the game's features rather than managing repetitive logic.
 
-    - Expensive car: draws the eyes of everyone else, including the police unfortunately. Stopped by the police to check your license, and ownership certificate. Faced with the police, what should you do?
-        - Present the fake certificate: mission failed
-            - Lose $100 in bail and 10 reputation point
-        - Race with him on the street: Skip to the next Node (deliver/ joy ride)   
+- If you could go back in time and give your past self some advice about this project, what hints would you give?
+    - Use Github as a tool to collaborate with 2 other teammates
+    - Regularly test smaller components rather than waiting to test the system as a whole.
+    - Keep the player experience in mind when designing input and feedback systems.
+    - Use detailed comments and documentation throughout development to save time when revisiting complex parts of the code.
 
-- Deliver/ Joy Ride 
-    - Deliver immediately: get your full money and reward
-    - Joyride: He got impatient. You did not earn fewer reputation points. 
-
-## Mission 2: The Warehouse Raid
-Objective: Infiltrate the Iron Hounds’ warehouse and steal valuable goods for Vinnie. Need 10 reputation points to unlock
-Description: After proving yourself in the car heist, Vinnie gives you a tougher job. You need to break into the Iron Hounds' warehouse to steal a stash of valuable electronics. The warehouse has guards, but you are strong and run (kinda) fast!
-
-### Requirements: 
-$200, 10 reputation point
-
-### Key Choices
-- Collecting the Stash:
-    - Quick Grab: Take one item and leave quickly to avoid detection.
-        - Skip to the Final Node: Direct (guarded) or Indirect (not guarded)
-    - Full Stash: You took so long, so the alarm is triggered. You have way too many things to carry. 
-        - Drop some items and run faster (earn lower reputation points)
-            Skip to the final Node: Direct (guarded) or Indirect (not guarded)
-        - Bring them all with you: keep the reputation point
-
-- Escape Route:
-    - Direct Route: The fastest way out but guarded by the Iron Hounds.
-    Outcome if successful: You escape quickly with minimal loss.
-    Risk: Moderate chance of encountering rival gang members.
-    If caught: Money -$50, Reputation -5.
-    - Stealth Route: A slower but safer way out through the back alleys.
-    Outcome: You escape unnoticed.
-    Reward: Money +$50 for avoiding detection.
-
-## Mission 3: The Final Heist
-Objective: Pull off a bank heist with Vinnie’s crew as the getaway driver. Description: After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. Your role is crucial as the getaway driver. You'll need to navigate through Rivertown while avoiding police and rival gang interference to ensure a clean escape.
-
-### Requirements: 
-$200, 30 reputation point
-
-### Key Choices
-- Police Chase:
-    Evade the Police: Use your driving skills to outmaneuver police cars and escape.
-        Outcome: If successful, you get away cleanly.
-        Risk: If caught, you lose part of the loot (Money -$100) and Reputation -10.
-        Fight Back: Use a weapon to disable pursuing police cars.
-    Outcome: Slower but ensures a higher chance of escape.
-        Risk: Lowers Reputation -5 (seen as reckless).
-- Split the Loot:
-    Stay Loyal: Share the loot evenly with the crew.
-        Outcome: Reputation +10 and Vinnie’s trust, ensuring future jobs with the crew.
-    Betray the Crew: Escape with the entire loot.
-        Outcome: Money +$500 but Reputation -20 (Vinnie and his crew will hunt you down in future missions).
-
-## Side Quests (to either increase reputation points or money): 
-- Side Quests are available if the user cant unlock the next sub-missions
-
-## Side Quest 1: Debt Collection 
-Objective: Help Vinnie collect overdue payments from local business owners who owe him money. Description: Vinnie isn’t pleased with your recent actions and wants you to prove yourself useful. He assigns you to collect “protection fees” from two local businesses in Rivertown. Approach them to demand payment, but handle it carefully—being too aggressive may backfire.
-
-### Key Choices:
-- Polite but Firm: Approach the business owner with a firm but nonthreatening attitude. This will lower your chance of increasing your reputation and reduce the chance of them resisting or calling the police.
-- Intimidating: Use intimidation to collect the payment faster. However, this increases the risk of the owner calling the police, which could cost you more money in bail if caught.
-Outcomes:
-
-Successful Collection:
-- Polite but Firm: Reputation +5, Money +$100.
-- Intimidating: Reputation +10, Money +$150, with a 20% chance of police involvement (Money -$100 for bail).
-- Failed Collection (if police are called): Money -$100, Reputation -5 (for getting caught).
+- If you worked with a team: please comment on how your team dynamics influenced your experience working on this project.
+    Luckily our team had some prior experience using Git branches; however, the workflow still has room for improvement. One member focuses more on implementing user-related features, one member focuses more on the backend logic of map, one member focuses on formatting, logic of the storyline, and catching exceptions
