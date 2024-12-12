@@ -8,3 +8,4 @@ Game commands:
 
 # SPOILER ALERT
 The outcomes of the choice are only determined by probability, which will then determine the results of the points to get for each quest/mission. Success results in gaining reputation points and money, while the failure outcome results in losing reputation points and money.
+Shortest way is getting successes in all missions by chance.
