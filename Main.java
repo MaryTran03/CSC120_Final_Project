@@ -36,7 +36,7 @@ public class Main {
         Node mission3_police_escape = new Node("After proving your skills in the car heist and warehouse raid, Vinnie trusts you with the crew's biggest job yet—a bank heist. \n Your role is crucial as the getaway driver. The police is behind you but your car is equipped with these tear gas and guns to fight back", 
         "The Final Heist Police Escape", 200, 30,3); 
         Node mission3_split_loot = new Node("You avoided the police and escaped with $5 million in cash ... The crew is wayyyy behind you" , 
-        "The final Heist Part 2", 200, 30,3); 
+        "The final Heist Split Loot", 200, 30,3); 
         Node endNode = new Node("Congrats! You completed all missions!", 
         "The End", 0, 0,4);
 
@@ -181,6 +181,16 @@ public class Main {
             game.addEdge(node, pause);
         }
 
+
+        // Run this if you want to see all the choices 
+        
+        // for (Node node: game.getOrderNodes()){
+        //     for (Choice choice: game.getChoices(node)){
+        //         System.out.println("\n" + node.getName());
+        //         System.out.println(choice);
+        //     }
+        // }
+
         // Run the game
 
         Player player = game.startGame();
@@ -205,7 +215,6 @@ public class Main {
         } else {
             game.describeGame();
             game.traverse(player);
-            //game.handleSideQuests(player,mission3_police_escape);
             game.endGame();    
         }    
     }

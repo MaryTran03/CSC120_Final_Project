@@ -31,7 +31,8 @@ public class Choice {
     }
 
     /**
-     * Overloaded constructor to create a choice without specifying a next node.
+     * Overloaded constructor to create a choice without specifying a next node. These are the Choices for SideQuests 
+     * where the logic of the game will determines the next Node.
      * 
      * @param name The name of the choice.
      * @param description The description of the choice.
@@ -92,4 +93,13 @@ public class Choice {
      * @return The next node to transition to if the choice is successful.
      */
     public Node getNextNode() { return nextNode; }
+
+    
+    /**
+     * Overload the println method
+     * @return A String that contains the most relevant information for each choice
+     */
+    public String toString(){
+        return this.name + "---- Money Reward: $" + this.moneyReward + " Reputation Reward: $" + this.reputationReward + " Probability of success :" + this.getSuccessProbability() + " If successful, go to " + this.getNextNode();
+    }
 }

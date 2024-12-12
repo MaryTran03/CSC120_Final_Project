@@ -5,6 +5,12 @@ class Node {
     private String description;
     private int mission;
 
+    
+    /**
+     * The Node class represents a mission part or a sidequest in the game.
+     * that the player must progress through.
+     */
+
     // Constructor
     public Node(String description, String name, int minMoney, int minReputation, int mission) {
         this.name = name;
@@ -14,10 +20,11 @@ class Node {
         this.mission = mission;
     }
 
+    // Overload the constructor for Side Quest which has virtually no minimum reputation and money to unlock. Used to help users gain points to get the next Node
     public Node(String description, String name) {
         this.name = name;
-        this.minMoney = 0;
-        this.minReputation = 0;
+        this.minMoney = -100000;
+        this.minReputation = -100000;
         this.description = description;
         this.mission = -1; // Set mission to -1 because SideQuest does not belong to any mission
     }
@@ -32,6 +39,6 @@ class Node {
 
     @Override
     public String toString(){
-        return this.getDescription();
+        return this.getName();
     }
 }    
