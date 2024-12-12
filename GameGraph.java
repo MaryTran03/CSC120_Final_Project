@@ -332,9 +332,12 @@ class GameGraph {
                 System.out.println("\nSuccess! Money: $" + player.getCurrentMoney() + ", Reputation: " + player.getCurrentReputation());
     
                 Node nextNode = selectedChoice.getNextNode();
+                // If the user can unlock the next Mission
                 if (nextNode != null && canAccessNode(nextNode, player)) {
                     currentNode = nextNode; // Move to the next node
                     player.setCurrentNode(nextNode);
+
+                // Do Side Quests if cant unlock the next mission    
                 } else if (nextNode != null) {
                     System.out.println("\nYou need more money or reputation to proceed to " + nextNode.getName());
                     userPause = handleSideQuests(player, nextNode);
@@ -350,6 +353,7 @@ class GameGraph {
                 player.setCurrentReputation(player.getCurrentReputation() - 20);
                 System.out.println("Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
     
+                // Reset the current node to the first part of the mission
                 currentNode = updateNode(currentNode);
                 player.setCurrentNode(currentNode);
                 System.out.println("\nRestarting at " + currentNode.getName());
