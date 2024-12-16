@@ -184,38 +184,38 @@ public class Main {
 
         // Run this if you want to see all the choices 
         
-        // for (Node node: game.getOrderNodes()){
-        //     for (Choice choice: game.getChoices(node)){
-        //         System.out.println("\n" + node.getName());
-        //         System.out.println(choice);
-        //     }
-        // }
+        for (Node node: game.getOrderNodes()){
+            for (Choice choice: game.getChoices(node)){
+                System.out.println("\n" + node.getName());
+                System.out.println(choice);
+            }
+        }
 
         // Run the game
 
-        Player player = game.startGame();
-        if (player.getCurrentNode().getName() == "The End"){
-            System.out.println("You already completed the game!");
-            System.out.println("Do you want to start again? You will lose your current money and reputation points. \n1: Yes\n2: No");
-            int input = game.getUserInput(game.getScanner(),1,2);
-            if (input == 1){
-                // Resetting progress
-                player.setCurrentMoney(200);
-                player.setCurrentReputation(0);
-                player.setCurrentNode(game.getOrderNodes().get(0));
+        // Player player = game.startGame();
+        // if (player.getCurrentNode().getName() == "The End"){
+        //     System.out.println("You already completed the game!");
+        //     System.out.println("Do you want to start again? You will lose your current money and reputation points. \n1: Yes\n2: No");
+        //     int input = game.getUserInput(game.getScanner(),1,2);
+        //     if (input == 1){
+        //         // Resetting progress
+        //         player.setCurrentMoney(200);
+        //         player.setCurrentReputation(0);
+        //         player.setCurrentNode(game.getOrderNodes().get(0));
                 
-                // Resume
-                game.describeGame();
-                game.traverse(player);
-                game.endGame();        
-            } else {
-                System.out.println("Come back if you want to replay the game");
+        //         // Resume
+        //         game.describeGame();
+        //         game.traverse(player);
+        //         game.endGame();        
+        //     } else {
+        //         System.out.println("Come back if you want to replay the game");
 
-            }
-        } else {
-            game.describeGame();
-            game.traverse(player);
-            game.endGame();    
-        }    
+        //     }
+        // } else {
+        //     game.describeGame();
+        //     game.traverse(player);
+        //     game.endGame();    
+        // }    
     }
 }
