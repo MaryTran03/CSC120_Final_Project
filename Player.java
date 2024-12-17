@@ -19,7 +19,7 @@ public class Player{
         this.currentNode = currentNode;
         this.name = name;
         this.currentReputation = 0;  // Start reputation at 0
-        this.currentMoney = 150;   // Starting money at $150
+        this.currentMoney = 200;   // Starting money at $200
        
     }
     // Getters and Setters

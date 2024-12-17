@@ -120,7 +120,7 @@ class GameGraph {
         System.out.println("But beware, each mission demands a specific amount of money and reputation points to unlock. Don't worry, you can always tackle side quests to boost your stats.");
         System.out.println("\nRemember, you can pause the game at any moment to save your progress and resume later");
         System.out.println("\nWin the game: Finish all 3 missions.\n");
-        System.out.println("Good luck, and may you succeed in completing all the missions! \n Press ENTER to continue");
+        System.out.println("Good luck, and may you succeed in completing all the missions! \nPress ENTER to continue");
 
         scanner.nextLine();
     }
@@ -270,14 +270,7 @@ class GameGraph {
     
         while (!userPause) {
             Mission currentMission = getMissions().get(currentNode.getMission() - 1);
-    
-            // Display mission details if starting a new mission
-            if (currentMission.getMissionNodes().indexOf(currentNode) == 0) {
-                System.out.println("\n***************************");
-                System.out.println("Current Mission: " + currentMission.getName());
-                System.out.println("Your Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
-            }
-    
+            
             // Check if the player has completed the game
             if (currentNode == orderNodes.get(orderNodes.size() - 1)) {
                 System.out.println("\n***************************");
@@ -286,6 +279,13 @@ class GameGraph {
                 player.setCurrentNode(currentNode);
                 saveAndStoreProgress(player);
                 break;
+            }
+    
+            // Display mission details if starting a new mission
+            if (currentMission.getMissionNodes().indexOf(currentNode) == 0) {
+                System.out.println("\n***************************");
+                System.out.println("Current Mission: " + currentMission.getName());
+                System.out.println("Your Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
             }
     
             // Check if the player can unlock the current node
@@ -348,9 +348,9 @@ class GameGraph {
                 }
             } else {
                 // Failure: Apply penalties and restart at the current mission's first node
-                System.out.println("\nYou failed! Lost $300 and 20 reputation points.");
-                player.setCurrentMoney(player.getCurrentMoney() - 300);
-                player.setCurrentReputation(player.getCurrentReputation() - 20);
+                System.out.println("\nYou failed! Lost $100 and 10 reputation points.");
+                player.setCurrentMoney(player.getCurrentMoney() - 100);
+                player.setCurrentReputation(player.getCurrentReputation() - 10);
                 System.out.println("Current Stats: Money = $" + player.getCurrentMoney() + ", Reputation = " + player.getCurrentReputation());
     
                 // Reset the current node to the first part of the mission

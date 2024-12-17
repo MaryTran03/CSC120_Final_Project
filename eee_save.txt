@@ -1,4 +1,0 @@
-Player name: eee
-Reputation: 45
-Money: 1050.00
-Last completed mission: The End

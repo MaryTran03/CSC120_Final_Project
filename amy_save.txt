@@ -1,0 +1,4 @@
+Player name: amy
+Reputation: -3
+Money: 1000.00
+Last completed mission: The End

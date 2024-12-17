@@ -100,6 +100,6 @@ public class Choice {
      * @return A String that contains the most relevant information for each choice
      */
     public String toString(){
-        return this.name + "---- Money Reward: $" + this.moneyReward + " Reputation Reward: $" + this.reputationReward + " Probability of success :" + this.getSuccessProbability() + " If successful, go to " + this.getNextNode();
+        return this.name + "---- Money Reward: $" + this.moneyReward + " Reputation Reward: " + this.reputationReward + " Probability of success :" + this.getSuccessProbability() + " If successful, go to " + this.getNextNode();
     }
 }
